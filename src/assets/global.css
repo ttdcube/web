@@ -143,6 +143,22 @@ a {
   gap: 18px;
 }
 
+.two-column {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.section-gap {
+  margin-top: 18px;
+}
+
+.card-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
 .panel {
   padding: 22px;
   border: 1px solid var(--line);
@@ -182,6 +198,118 @@ a {
   color: #ffffff;
 }
 
+.btn-soft {
+  padding: 0 12px;
+  background: #e7f4f2;
+  color: var(--primary-dark);
+}
+
+.btn-danger {
+  padding: 0 12px;
+  background: #fee2e2;
+  color: var(--red);
+}
+
+.appointment-card,
+.doctor-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.appointment-card header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+}
+
+.appointment-card h3,
+.doctor-card h3 {
+  margin: 0;
+}
+
+.appointment-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 14px 14px;
+}
+
+.appointment-meta span {
+  padding: 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--muted);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.status-pill {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 9px;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.status-pending {
+  background: var(--orange);
+}
+
+.status-confirmed {
+  background: var(--blue);
+}
+
+.status-done {
+  background: var(--green);
+}
+
+.status-cancelled {
+  background: var(--red);
+}
+
+.doctor-card {
+  padding: 14px;
+}
+
+.slot-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.slot-row span {
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: #e7f4f2;
+  color: var(--primary-dark);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.empty-state {
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  text-align: center;
+}
+
 .footer {
   padding: 24px 40px;
   color: var(--muted);
@@ -198,7 +326,9 @@ a {
   }
 
   .sidebar nav,
-  .hero-grid {
+  .hero-grid,
+  .two-column,
+  .appointment-meta {
     grid-template-columns: 1fr;
   }
 
