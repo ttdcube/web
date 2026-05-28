@@ -1,4 +1,5 @@
 const STORAGE_KEY = "clinicflow-data-v1";
+const THEME_KEY = "clinicflow-theme";
 
 const doctors = [
   {
@@ -75,6 +76,7 @@ const formEl = document.querySelector("#bookingForm");
 const messageEl = document.querySelector("#formMessage");
 const patientSearchEl = document.querySelector("#patientSearch");
 const statusFilterEl = document.querySelector("#statusFilter");
+const themeBtn = document.querySelector("#themeBtn");
 
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -118,6 +120,12 @@ function getStatusText(status) {
     done: "Đã khám",
     cancelled: "Đã hủy",
   }[status];
+}
+
+function applyTheme() {
+  const theme = localStorage.getItem(THEME_KEY) || "light";
+  document.body.classList.toggle("dark", theme === "dark");
+  themeBtn.textContent = theme === "dark" ? "Giao diện sáng" : "Giao diện tối";
 }
 
 function getActiveAppointments() {
@@ -292,12 +300,98 @@ function renderAppointments() {
     .join("");
 }
 
+function renderDepartmentStats() {
+  const activeAppointments = getActiveAppointments();
+  const stats = doctors.reduce((result, doctor) => {
+    result[doctor.department] ||= 0;
+    result[doctor.department] += activeAppointments.filter((item) => item.doctorId === doctor.id).length;
+    return result;
+  }, {});
+
+  const max = Math.max(...Object.values(stats), 1);
+  document.querySelector("#departmentStats").innerHTML = Object.entries(stats)
+    .map(([department, count]) => {
+      const percent = Math.round((count / max) * 100);
+      return `
+        <article class="stat-row">
+          <strong>${department}</strong>
+          <span>${count} lịch</span>
+          <div class="stat-bar"><span style="width: ${percent}%"></span></div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderTodayQueue() {
+  const todayAppointments = state.appointments
+    .filter((item) => item.date === today() && item.status !== "cancelled")
+    .sort((a, b) => a.slot.localeCompare(b.slot));
+
+  const queueEl = document.querySelector("#todayQueue");
+  if (todayAppointments.length === 0) {
+    queueEl.innerHTML = `<div class="empty-state">Hôm nay chưa có lịch khám.</div>`;
+    return;
+  }
+
+  queueEl.innerHTML = todayAppointments
+    .map((appointment) => {
+      const patient = getPatient(appointment.patientId);
+      const doctor = getDoctor(appointment.doctorId);
+      return `
+        <article class="queue-card">
+          <time>${appointment.slot}</time>
+          <div>
+            <strong>${patient?.name || "Không rõ bệnh nhân"}</strong>
+            <p>${doctor?.name || "Không rõ bác sĩ"} | ${doctor?.department || "Không rõ khoa"}</p>
+          </div>
+          <span class="status-pill status-${appointment.status}">${getStatusText(appointment.status)}</span>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function exportCsv() {
+  const rows = [
+    ["Ma lich", "Benh nhan", "So dien thoai", "Bac si", "Chuyen khoa", "Ngay kham", "Khung gio", "Trang thai", "Ly do"],
+    ...state.appointments.map((appointment) => {
+      const patient = getPatient(appointment.patientId);
+      const doctor = getDoctor(appointment.doctorId);
+      return [
+        appointment.id,
+        patient?.name || "",
+        patient?.phone || "",
+        doctor?.name || "",
+        doctor?.department || "",
+        appointment.date,
+        appointment.slot,
+        getStatusText(appointment.status),
+        appointment.reason || "",
+      ];
+    }),
+  ];
+
+  const csv = rows
+    .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(","))
+    .join("\n");
+  const blob = new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `lich-kham-${today()}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 function renderAll() {
   renderMetrics();
   renderSlots();
   renderDoctorList();
   renderPatients();
   renderAppointments();
+  renderDepartmentStats();
+  renderTodayQueue();
 }
 
 function findOrCreatePatient({ name, phone, birthYear, gender }) {
@@ -407,6 +501,13 @@ patientSearchEl.addEventListener("input", renderPatients);
 statusFilterEl.addEventListener("change", renderAppointments);
 document.querySelector("#appointmentList").addEventListener("click", handleAppointmentAction);
 document.querySelector("#resetDataBtn").addEventListener("click", resetData);
+document.querySelector("#exportBtn").addEventListener("click", exportCsv);
+themeBtn.addEventListener("click", () => {
+  const nextTheme = document.body.classList.contains("dark") ? "light" : "dark";
+  localStorage.setItem(THEME_KEY, nextTheme);
+  applyTheme();
+});
 
+applyTheme();
 renderSelects();
 renderAll();

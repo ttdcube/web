@@ -15,6 +15,16 @@
   --shadow: 0 18px 44px rgba(24, 44, 65, 0.11);
 }
 
+body.dark {
+  --bg: #0f172a;
+  --surface: #172033;
+  --surface-soft: #1f2d44;
+  --text: #edf4ff;
+  --muted: #a8b7ca;
+  --line: #314158;
+  --shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -190,6 +200,7 @@ main {
 .metric-grid,
 .booking-grid,
 .data-grid,
+.insight-grid,
 .workflow-grid {
   display: grid;
   gap: 18px;
@@ -231,6 +242,11 @@ main {
 
 .data-grid {
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  margin-top: 18px;
+}
+
+.insight-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   margin-top: 18px;
 }
 
@@ -314,21 +330,27 @@ textarea:focus {
 
 .doctor-list,
 .patient-list,
-.appointment-list {
+.appointment-list,
+.department-stats,
+.queue-list {
   display: grid;
   gap: 12px;
 }
 
 .doctor-card,
 .patient-card,
-.appointment-card {
+.appointment-card,
+.stat-row,
+.queue-card {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-soft);
 }
 
 .doctor-card,
-.patient-card {
+.patient-card,
+.stat-row,
+.queue-card {
   padding: 14px;
 }
 
@@ -432,6 +454,45 @@ textarea:focus {
   background: #ffffff;
 }
 
+.stat-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.stat-row strong,
+.queue-card strong {
+  display: block;
+}
+
+.stat-bar {
+  grid-column: 1 / -1;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(99, 114, 135, 0.2);
+}
+
+.stat-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+}
+
+.queue-card {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.queue-card time {
+  color: var(--blue);
+  font-weight: 900;
+}
+
 .search-input,
 .filter-select {
   width: min(250px, 100%);
@@ -494,7 +555,8 @@ textarea:focus {
   }
 
   .booking-grid,
-  .data-grid {
+  .data-grid,
+  .insight-grid {
     grid-template-columns: 1fr;
   }
 
@@ -535,7 +597,8 @@ textarea:focus {
   .metric-grid,
   .workflow-grid,
   form,
-  .appointment-meta {
+  .appointment-meta,
+  .queue-card {
     grid-template-columns: 1fr;
   }
 

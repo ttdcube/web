@@ -32,6 +32,8 @@
         <h1>Quản lý hồ sơ bệnh nhân và lịch khám bác sĩ</h1>
       </div>
       <div class="topbar-actions">
+        <button class="ghost-btn" id="themeBtn" type="button">Giao diện tối</button>
+        <button class="ghost-btn" id="exportBtn" type="button">Xuất CSV</button>
         <button class="ghost-btn" id="resetDataBtn" type="button">Khôi phục dữ liệu mẫu</button>
         <a class="primary-btn" href="#booking">Tạo lịch mới</a>
       </div>
@@ -146,6 +148,24 @@
             </select>
           </div>
           <div class="appointment-list" id="appointmentList"></div>
+        </article>
+      </section>
+
+      <section class="insight-grid">
+        <article class="panel">
+          <div class="section-title">
+            <p class="eyebrow">Báo cáo vận hành</p>
+            <h2>Lịch khám theo chuyên khoa</h2>
+          </div>
+          <div class="department-stats" id="departmentStats"></div>
+        </article>
+
+        <article class="panel">
+          <div class="section-title">
+            <p class="eyebrow">Hàng đợi hôm nay</p>
+            <h2>Bệnh nhân sắp khám</h2>
+          </div>
+          <div class="queue-list" id="todayQueue"></div>
         </article>
       </section>
 
