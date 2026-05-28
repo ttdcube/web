@@ -143,6 +143,64 @@ a {
   gap: 18px;
 }
 
+.metric-grid,
+.workflow-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.metric-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.metric-card span {
+  color: var(--primary);
+  font-size: 2.25rem;
+  font-weight: 900;
+}
+
+.metric-card p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.workflow-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.workflow-grid article {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.workflow-grid span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 8px;
+  background: #e7f4f2;
+  color: var(--primary);
+  font-weight: 900;
+}
+
+.workflow-grid h3 {
+  margin: 14px 0 0;
+}
+
 .two-column {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -315,6 +373,22 @@ a {
   color: var(--muted);
 }
 
+.auth-layout {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-panel {
+  width: min(440px, 100%);
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
 @media (max-width: 900px) {
   .sidebar {
     position: static;
@@ -327,6 +401,8 @@ a {
 
   .sidebar nav,
   .hero-grid,
+  .metric-grid,
+  .workflow-grid,
   .two-column,
   .appointment-meta {
     grid-template-columns: 1fr;

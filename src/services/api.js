@@ -1,5 +1,8 @@
 const STORAGE_KEY = "clinicflow-pro-data";
 
+// Khi có backend thật, thay localStorage bằng fetch/Axios tại layer này.
+// Các page và component không cần đổi vì chỉ gọi qua patientService/doctorService.
+
 export const seedData = {
   patients: [
     { id: "BN001", name: "Nguyễn Văn An", phone: "0901234567", birthYear: 1994, gender: "Nam" },
