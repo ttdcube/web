@@ -18,7 +18,7 @@ export function getAppointments() {
 
 export function saveAppointment(payload) {
   const data = readData();
-  data.appointments.push({ id: nextId("LK", data.appointments), status: "pending", ...payload });
+  data.appointments.push({ id: nextId("LK", data.appointments), status: payload.status || "pending", ...payload });
   return writeData(data);
 }
 

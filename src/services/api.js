@@ -5,8 +5,28 @@ const STORAGE_KEY = "clinicflow-pro-data";
 
 export const seedData = {
   patients: [
-    { id: "BN001", name: "Nguyễn Văn An", phone: "0901234567", birthYear: 1994, gender: "Nam" },
-    { id: "BN002", name: "Trần Thị Bình", phone: "0912345678", birthYear: 1981, gender: "Nữ" },
+    {
+      id: "BN001",
+      name: "Nguyễn Văn An",
+      phone: "0901234567",
+      email: "an.nguyen@example.com",
+      birthYear: 1994,
+      gender: "Nam",
+      bloodType: "O+",
+      allergies: "Penicillin",
+      medicalHistory: "Viêm xoang mãn tính",
+    },
+    {
+      id: "BN002",
+      name: "Trần Thị Bình",
+      phone: "0912345678",
+      email: "binh.tran@example.com",
+      birthYear: 1981,
+      gender: "Nữ",
+      bloodType: "A+",
+      allergies: "",
+      medicalHistory: "Tăng huyết áp",
+    },
   ],
   doctors: [
     {

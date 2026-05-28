@@ -6,22 +6,32 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function upcomingDays() {
+  return Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() + index);
+    return date.toISOString().slice(0, 10);
+  });
+}
+
 export function BookingForm({ data, activePatient, onSaved }) {
-  const [department, setDepartment] = useState(data.doctors[0]?.department || "");
   const [doctorId, setDoctorId] = useState(data.doctors[0]?.id || "");
   const [date, setDate] = useState(today());
-  const [slot, setSlot] = useState(data.doctors[0]?.slots[0] || "");
+  const [slot, setSlot] = useState("");
   const [reason, setReason] = useState("");
   const [message, setMessage] = useState("");
 
-  const departments = useMemo(() => [...new Set(data.doctors.map((doctor) => doctor.department))], [data.doctors]);
-  const doctors = data.doctors.filter((doctor) => doctor.department === department);
-  const selectedDoctor = data.doctors.find((doctor) => doctor.id === doctorId) || doctors[0];
+  const selectedDoctor = data.doctors.find((doctor) => doctor.id === doctorId) || data.doctors[0];
+  const days = useMemo(upcomingDays, []);
 
   function bookedCount(nextSlot) {
     return data.appointments.filter(
       (item) => item.doctorId === selectedDoctor?.id && item.date === date && item.slot === nextSlot && item.status !== "cancelled"
     ).length;
+  }
+
+  function remaining(nextSlot) {
+    return Math.max((selectedDoctor?.capacity || 0) - bookedCount(nextSlot), 0);
   }
 
   function submit(event) {
@@ -31,11 +41,11 @@ export function BookingForm({ data, activePatient, onSaved }) {
       return;
     }
     if (!selectedDoctor || !slot) {
-      setMessage("Vui lòng chọn bác sĩ và khung giờ.");
+      setMessage("Vui lòng chọn bác sĩ, ngày khám và khung giờ còn trống.");
       return;
     }
-    if (bookedCount(slot) >= selectedDoctor.capacity) {
-      setMessage("Khung giờ này đã hết chỗ.");
+    if (remaining(slot) <= 0) {
+      setMessage("Khung giờ này đã được đặt hết.");
       return;
     }
 
@@ -46,64 +56,85 @@ export function BookingForm({ data, activePatient, onSaved }) {
       slot,
       reason,
     });
+    setSlot("");
     setReason("");
-    setMessage("Đã gửi lịch khám. Trạng thái hiện tại: chờ xác nhận.");
+    setMessage("Đặt lịch thành công. Hệ thống đã chuyển lịch về trạng thái chờ xác nhận.");
     onSaved();
   }
 
   return (
-    <form className="form-grid" onSubmit={submit}>
-      <label className="field">
-        <span>Chuyên khoa</span>
-        <select
-          value={department}
-          onChange={(event) => {
-            const nextDepartment = event.target.value;
-            const nextDoctor = data.doctors.find((doctor) => doctor.department === nextDepartment);
-            setDepartment(nextDepartment);
-            setDoctorId(nextDoctor?.id || "");
-            setSlot(nextDoctor?.slots[0] || "");
-          }}
-        >
-          {departments.map((item) => (
-            <option key={item}>{item}</option>
+    <form className="booking-flow" onSubmit={submit}>
+      <section>
+        <h3>1. Chọn bác sĩ</h3>
+        <div className="doctor-picker">
+          {data.doctors.map((doctor) => (
+            <button
+              className={doctor.id === selectedDoctor?.id ? "doctor-option selected" : "doctor-option"}
+              key={doctor.id}
+              type="button"
+              onClick={() => {
+                setDoctorId(doctor.id);
+                setSlot("");
+              }}
+            >
+              <strong>{doctor.name}</strong>
+              <span>{doctor.department}</span>
+              <small>Phòng {doctor.room}</small>
+            </button>
           ))}
-        </select>
-      </label>
-      <label className="field">
-        <span>Bác sĩ</span>
-        <select value={doctorId} onChange={(event) => setDoctorId(event.target.value)}>
-          {doctors.map((doctor) => (
-            <option key={doctor.id} value={doctor.id}>
-              {doctor.name} - Phòng {doctor.room}
-            </option>
+        </div>
+      </section>
+
+      <section>
+        <h3>2. Chọn ngày khám</h3>
+        <div className="date-strip">
+          {days.map((item) => (
+            <button
+              className={item === date ? "date-chip selected" : "date-chip"}
+              key={item}
+              type="button"
+              onClick={() => {
+                setDate(item);
+                setSlot("");
+              }}
+            >
+              <span>{new Intl.DateTimeFormat("vi-VN", { weekday: "short" }).format(new Date(`${item}T00:00:00`))}</span>
+              <strong>{new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit" }).format(new Date(`${item}T00:00:00`))}</strong>
+            </button>
           ))}
-        </select>
-      </label>
-      <label className="field">
-        <span>Ngày khám</span>
-        <input type="date" min={today()} value={date} onChange={(event) => setDate(event.target.value)} />
-      </label>
-      <label className="field">
-        <span>Khung giờ</span>
-        <select value={slot} onChange={(event) => setSlot(event.target.value)}>
+        </div>
+      </section>
+
+      <section>
+        <h3>3. Chọn khung giờ</h3>
+        <div className="time-grid">
           {(selectedDoctor?.slots || []).map((item) => {
-            const remaining = selectedDoctor.capacity - bookedCount(item);
+            const left = remaining(item);
+            const disabled = left <= 0;
             return (
-              <option key={item} value={item} disabled={remaining <= 0}>
-                {item} - còn {remaining} chỗ
-              </option>
+              <button
+                className={`time-slot ${slot === item ? "selected" : ""} ${disabled ? "unavailable" : "available"}`}
+                disabled={disabled}
+                key={item}
+                type="button"
+                onClick={() => setSlot(item)}
+              >
+                <strong>{item}</strong>
+                <span>{disabled ? "Đã kín" : `Còn ${left} chỗ`}</span>
+              </button>
             );
           })}
-        </select>
-      </label>
+        </div>
+      </section>
+
       <label className="field full">
         <span>Lý do khám</span>
-        <textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Mô tả triệu chứng" />
+        <textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Mô tả triệu chứng chính" />
       </label>
-      <p className={`form-message ${message.includes("Đã") ? "success" : ""}`}>{message}</p>
+
+      <p className={`form-message ${message.includes("thành công") ? "success" : ""}`}>{message}</p>
       <div className="form-actions">
-        <Button type="submit">Đặt lịch khám</Button>
+        <Button type="submit">Xác nhận đặt lịch</Button>
       </div>
     </form>
   );

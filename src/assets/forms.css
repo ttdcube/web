@@ -1,7 +1,24 @@
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 18px;
+}
+
+.form-grid fieldset {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.form-grid legend {
+  padding: 0 8px;
+  color: var(--primary-dark);
+  font-weight: 900;
 }
 
 .field {
@@ -45,10 +62,113 @@
   box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
 }
 
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea {
+  border-color: var(--red);
+  background: #fff7f7;
+}
+
+.field-error {
+  margin-top: -6px;
+  color: var(--red);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
 .field.full,
 .form-message,
 .form-actions {
   grid-column: 1 / -1;
+}
+
+.booking-flow {
+  display: grid;
+  gap: 22px;
+}
+
+.booking-flow h3 {
+  margin: 0 0 10px;
+  color: var(--primary-dark);
+}
+
+.doctor-picker,
+.date-strip,
+.time-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.doctor-picker {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.doctor-option,
+.date-chip,
+.time-slot {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.doctor-option {
+  display: grid;
+  gap: 4px;
+  min-height: 96px;
+  padding: 14px;
+}
+
+.doctor-option span,
+.doctor-option small,
+.date-chip span,
+.time-slot span {
+  color: var(--muted);
+}
+
+.doctor-option.selected,
+.date-chip.selected,
+.time-slot.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+.date-strip {
+  grid-template-columns: repeat(7, minmax(76px, 1fr));
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.date-chip {
+  display: grid;
+  min-height: 70px;
+  place-items: center;
+  padding: 10px;
+  text-align: center;
+}
+
+.time-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.time-slot {
+  display: grid;
+  gap: 4px;
+  min-height: 74px;
+  padding: 12px;
+}
+
+.time-slot.available {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+}
+
+.time-slot.unavailable {
+  background: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
 }
 
 .form-message {
@@ -70,6 +190,11 @@
 
 @media (max-width: 700px) {
   .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-picker,
+  .time-grid {
     grid-template-columns: 1fr;
   }
 }

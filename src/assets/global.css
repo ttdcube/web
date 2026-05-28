@@ -1,5 +1,5 @@
 :root {
-  --bg: #eef3f7;
+  --bg: #f5f9fc;
   --surface: #ffffff;
   --surface-soft: #f8fbfd;
   --text: #172033;
@@ -11,7 +11,7 @@
   --green: #15803d;
   --orange: #c2410c;
   --red: #b91c1c;
-  --shadow: 0 18px 44px rgba(24, 44, 65, 0.11);
+  --shadow: 0 12px 28px rgba(24, 44, 65, 0.08);
 }
 
 * {
@@ -51,7 +51,7 @@ a {
   inset: 0 auto 0 0;
   width: 250px;
   padding: 24px;
-  background: #13233a;
+  background: #0f2742;
   color: #ffffff;
 }
 
@@ -134,7 +134,7 @@ a {
 .page {
   width: min(1180px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 28px 0 54px;
+  padding: 34px 0 64px;
 }
 
 .hero-grid {
@@ -208,7 +208,7 @@ a {
 }
 
 .section-gap {
-  margin-top: 18px;
+  margin-top: 26px;
 }
 
 .card-list {
@@ -218,7 +218,7 @@ a {
 }
 
 .panel {
-  padding: 22px;
+  padding: 28px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
@@ -231,6 +231,11 @@ a {
 
 .panel p {
   color: var(--muted);
+}
+
+.section-note {
+  max-width: 620px;
+  margin: 8px 0 18px;
 }
 
 .eyebrow {
@@ -340,6 +345,10 @@ a {
   background: var(--red);
 }
 
+.status-busy {
+  background: #ca8a04;
+}
+
 .doctor-card {
   padding: 14px;
 }
@@ -389,6 +398,153 @@ a {
   box-shadow: var(--shadow);
 }
 
+.patient-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.75fr);
+  gap: 22px;
+  padding: 30px;
+  border: 1px solid #cfe3f4;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffffff 0%, #eef8ff 100%);
+  box-shadow: var(--shadow);
+}
+
+.patient-summary h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+}
+
+.health-alerts {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 12px;
+}
+
+.health-alerts div {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.health-alerts span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.health-alerts strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.15rem;
+}
+
+.health-alerts .warning {
+  border-color: #fecaca;
+  background: #fff7f7;
+}
+
+.health-alerts .warning strong {
+  color: var(--red);
+}
+
+.calendar-view,
+.doctor-calendar,
+.calendar-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.calendar-legend span {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.legend-free {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.legend-booked {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.legend-busy {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.doctor-calendar {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.doctor-calendar header h3 {
+  margin: 0;
+}
+
+.doctor-calendar header p {
+  margin: 4px 0 0;
+}
+
+.calendar-grid {
+  grid-template-columns: repeat(7, minmax(150px, 1fr));
+  overflow-x: auto;
+}
+
+.calendar-day {
+  display: grid;
+  gap: 8px;
+  min-width: 150px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.calendar-day > strong {
+  color: var(--primary-dark);
+}
+
+.calendar-slot {
+  min-height: 42px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.calendar-slot.free {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.calendar-slot.booked {
+  background: #e2e8f0;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.calendar-slot.busy {
+  background: #fef3c7;
+  color: #92400e;
+  cursor: not-allowed;
+}
+
 @media (max-width: 900px) {
   .sidebar {
     position: static;
@@ -404,6 +560,8 @@ a {
   .metric-grid,
   .workflow-grid,
   .two-column,
+  .patient-summary,
+  .health-alerts,
   .appointment-meta {
     grid-template-columns: 1fr;
   }
@@ -415,5 +573,15 @@ a {
 
   .topbar-actions {
     margin-top: 16px;
+  }
+
+  .page {
+    width: min(94vw, 1180px);
+    padding-top: 22px;
+  }
+
+  .panel,
+  .patient-summary {
+    padding: 20px;
   }
 }

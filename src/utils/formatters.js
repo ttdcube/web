@@ -8,5 +8,6 @@ export function statusText(status) {
     confirmed: "Đã xác nhận",
     done: "Đã khám",
     cancelled: "Đã hủy",
+    busy: "Bác sĩ bận",
   }[status];
 }

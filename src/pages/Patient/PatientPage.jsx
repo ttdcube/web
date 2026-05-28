@@ -1,8 +1,9 @@
-import { Header } from "../../layouts/Header.jsx";
 import { useMemo, useState } from "react";
-import { BookingForm } from "../../components/specific/BookingForm.jsx";
 import { AppointmentCard } from "../../components/specific/AppointmentCard.jsx";
+import { BookingForm } from "../../components/specific/BookingForm.jsx";
 import { PatientProfileForm } from "../../components/specific/PatientProfileForm.jsx";
+import { PatientSummaryCard } from "../../components/specific/PatientSummaryCard.jsx";
+import { Header } from "../../layouts/Header.jsx";
 import { readData } from "../../services/api.js";
 import { savePatient } from "../../services/patientService.js";
 
@@ -10,7 +11,7 @@ export function PatientPage() {
   const [data, setData] = useState(readData);
   const activePatient = data.patients.at(-1);
   const appointments = useMemo(
-    () => data.appointments.filter((item) => item.patientId === activePatient?.id),
+    () => data.appointments.filter((item) => item.patientId === activePatient?.id && item.status !== "busy"),
     [data.appointments, activePatient?.id]
   );
 
@@ -20,12 +21,18 @@ export function PatientPage() {
 
   return (
     <>
-      <Header title="Khu vực bệnh nhân" subtitle="Quản lý hồ sơ và đặt lịch khám." />
-      <main className="page">
-        <section className="two-column">
+      <Header
+        title="Dashboard bệnh nhân"
+        subtitle="Một không gian riêng để quản lý hồ sơ y tế, xem cảnh báo quan trọng và đặt lịch khám không độ trễ."
+      />
+      <main className="page patient-dashboard">
+        <PatientSummaryCard patient={activePatient} />
+
+        <section className="two-column section-gap">
           <article className="panel">
             <p className="eyebrow">Hồ sơ</p>
             <h2>Thông tin bệnh nhân</h2>
+            <p className="section-note">Form được chia theo nhóm để dễ nhập và giảm lỗi cho người dùng lớn tuổi.</p>
             <PatientProfileForm
               initialProfile={activePatient}
               onSave={(profile) => {
@@ -36,7 +43,8 @@ export function PatientPage() {
           </article>
           <article className="panel">
             <p className="eyebrow">Đặt lịch</p>
-            <h2>Chọn bác sĩ và khung giờ</h2>
+            <h2>Chọn bác sĩ, ngày và giờ</h2>
+            <p className="section-note">Các giờ đã kín tự động mờ đi, bệnh nhân chỉ chọn được khung còn trống.</p>
             <BookingForm data={data} activePatient={activePatient} onSaved={refresh} />
           </article>
         </section>
