@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý bệnh nhân - ClinicFlow</title>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="UI.openSidebar()">☰</button>
+      <a href="../../index.html" style="font-size:1.25rem;font-weight:700;color:var(--color-primary)">🏥 ClinicFlow Admin</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      <button id="logout-btn" class="btn btn-secondary btn-sm">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-menu">
+        <a href="index.html" class="sidebar-link">📊 Tổng quan</a>
+        <a href="doctors.html" class="sidebar-link">👨‍⚕️ Bác sĩ</a>
+        <a href="patients.html" class="sidebar-link active">👥 Bệnh nhân</a>
+        <a href="appointments.html" class="sidebar-link">📅 Lịch hẹn</a>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <h1>Quản lý bệnh nhân</h1>
+        <p>Danh sách và quản lý toàn bộ hồ sơ bệnh nhân</p>
+      </div>
+
+      <!-- Filter -->
+      <div class="card" style="margin-bottom:1.5rem">
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <input type="text" id="patient-search" class="form-input" placeholder="Tìm kiếm bệnh nhân..." style="flex:1;min-width:200px">
+        </div>
+      </div>
+
+      <!-- Patient Grid -->
+      <div class="doctors-grid" id="admin-patients-grid"></div>
+      <div id="admin-patients-grid-pagination" style="margin-top:1.5rem"></div>
+    </main>
+  </div>
+
+  <!-- Patient Modal -->
+  <div class="modal-overlay" id="patient-modal">
+    <div class="modal" style="max-width:650px">
+      <div class="modal-header">
+        <h3 id="patient-modal-title">Sửa hồ sơ bệnh nhân</h3>
+        <button class="modal-close" onclick="UI.closeModal('patient-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="patient-form-id">
+        <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+          <div style="flex:1;min-width:180px;text-align:center">
+            <img id="patient-avatar-preview" src="https://ui-avatars.com/api/?name=Patient&background=2ecc71&color=fff&size=200" style="width:160px;height:160px;object-fit:cover;border-radius:50%;border:3px solid var(--border-color)">
+            <div style="margin-top:0.75rem">
+              <input type="file" id="patient-avatar-input" accept="image/*" style="display:none" onchange="PatientsAdmin.onAvatarChange(this)">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('patient-avatar-input').click()">Đổi ảnh</button>
+            </div>
+          </div>
+          <div style="flex:2;min-width:280px">
+            <div class="form-group">
+              <label class="form-label">Họ tên</label>
+              <input type="text" id="patient-name" class="form-input" placeholder="Nguyễn Văn A">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Số điện thoại</label>
+              <input type="tel" id="patient-phone" class="form-input" placeholder="0901234567">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ngày sinh</label>
+              <input type="date" id="patient-birthdate" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giới tính</label>
+              <select id="patient-gender" class="form-select">
+                <option value="other">Khác</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nhóm máu</label>
+          <select id="patient-bloodtype" class="form-select">
+            <option value="unknown">Chưa biết</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="AB">AB</option>
+            <option value="O">O</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tiền sử dụng thuốc/Dị ứng</label>
+          <textarea id="patient-allergies" class="form-textarea" rows="2" placeholder="Mô tả dị ứng hoặc tiền sử..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lịch sử bệnh án</label>
+          <textarea id="patient-history" class="form-textarea" rows="3" placeholder="Mô tả lịch sử bệnh án..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="UI.closeModal('patient-modal')">Hủy</button>
+        <button class="btn btn-primary" onclick="PatientsAdmin.savePatient()">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/core/ui.js"></script>
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/auth.js"></script>
+  <script src="../../data/seed.js"></script>
+  <script src="../../js/features/patients-admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check Auth
+      if (!Auth.isAuthenticated() || Auth.getCurrentUser().role !== 'admin') {
+        UI.toast('Bạn không có quyền truy cập', 'error');
+        window.location.href = '../login.html';
+        return;
+      }
+
+      // Seed if needed
+      const storedVersion = localStorage.getItem(Storage.KEYS.SEED_VERSION);
+      if (storedVersion !== Storage.SEED_VERSION) {
+        SeedData.run();
+        localStorage.setItem(Storage.KEYS.SEED_VERSION, Storage.SEED_VERSION);
+      }
+
+      UI.initTheme();
+      UI.initModals();
+
+      // Init
+      PatientsAdmin.renderGrid('admin-patients-grid');
+
+      // Search
+      const searchInput = document.getElementById('patient-search');
+      if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            PatientsAdmin.filters.search = this.value;
+            PatientsAdmin.currentPage = 1;
+            PatientsAdmin.renderGrid('admin-patients-grid');
+          }, 300);
+        });
+      }
+
+      // Logout
+      document.getElementById('logout-btn').addEventListener('click', Auth.logout);
+    });
+  </script>
+</body>
+</html>

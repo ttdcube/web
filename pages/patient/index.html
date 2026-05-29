@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng điều khiển - ClinicFlow</title>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="UI.openSidebar()">☰</button>
+      <a href="../index.html" style="font-size:1.25rem; font-weight:700; color:var(--color-primary)">🏥 ClinicFlow</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      <div class="topbar-user">
+        <img id="topbar-avatar" src="" alt="" class="topbar-avatar">
+        <span id="topbar-name" class="topbar-name"></span>
+      </div>
+      <button id="logout-btn" class="btn btn-secondary btn-sm">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-menu">
+        <a href="index.html" class="sidebar-link active">📊 Tổng quan</a>
+        <a href="appointments.html" class="sidebar-link">📅 Lịch khám</a>
+        <a href="profile.html" class="sidebar-link">👤 Hồ sơ cá nhân</a>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <h1>Xin chào! 👋</h1>
+        <p>Quản lý lịch khám và hồ sơ cá nhân của bạn</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="card stat-card">
+          <div class="stat-value" id="stat-upcoming">0</div>
+          <div class="stat-label">Lịch sắp tới</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="stat-completed">0</div>
+          <div class="stat-label">Đã khám</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Tổng lịch</div>
+        </div>
+      </div>
+
+      <!-- Profile Preview -->
+      <div class="card" style="margin-bottom:2rem">
+        <div class="patient-card-header">
+          <img id="patient-preview-avatar" src="" alt="" class="patient-avatar" style="width:80px; height:80px">
+          <div>
+            <h3 id="patient-preview-name" style="font-size:1.25rem"></h3>
+            <p id="patient-preview-phone" style="color:var(--text-muted)"></p>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <a href="profile.html" class="btn btn-secondary btn-sm">Chỉnh sửa hồ sơ</a>
+        </div>
+      </div>
+
+      <!-- Upcoming Appointments -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+          <h3>Lịch khám sắp tới</h3>
+          <a href="appointments.html" style="font-weight:500">Xem tất cả →</a>
+        </div>
+        <div id="patient-appointments"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/core/ui.js"></script>
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/auth.js"></script>
+  <script src="../../data/seed.js"></script>
+  <script src="../../js/features/doctors.js"></script>
+  <script src="../../js/features/appointments.js"></script>
+  <script src="../../js/features/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Storage.init();
+      UI.initTheme();
+
+      if (!Auth.isAuthenticated()) {
+        UI.toast('Vui lòng đăng nhập để tiếp tục', 'warning');
+        window.location.href = '../login.html';
+        return;
+      }
+
+      const user = Auth.getCurrentUser();
+      const patient = Auth.getCurrentPatient();
+
+      if (!patient) {
+        UI.toast('Không tìm thấy hồ sơ bệnh nhân', 'error');
+        return;
+      }
+
+      document.getElementById('topbar-name').textContent = patient.fullName;
+      document.getElementById('topbar-avatar').src = patient.avatar;
+      document.getElementById('patient-preview-name').textContent = patient.fullName;
+      document.getElementById('patient-preview-phone').textContent = patient.phone;
+      document.getElementById('patient-preview-avatar').src = patient.avatar;
+
+      Dashboard.renderPatient();
+      Appointments.renderPatientList('patient-appointments');
+
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        Auth.logout();
+      });
+    });
+  </script>
+</body>
+</html>

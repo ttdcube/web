@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý bác sĩ - ClinicFlow</title>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="UI.openSidebar()">☰</button>
+      <a href="../../index.html" style="font-size:1.25rem;font-weight:700;color:var(--color-primary)">🏥 ClinicFlow Admin</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      <button id="logout-btn" class="btn btn-secondary btn-sm">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-menu">
+        <a href="index.html" class="sidebar-link">📊 Tổng quan</a>
+        <a href="doctors.html" class="sidebar-link active">👨‍⚕️ Bác sĩ</a>
+        <a href="patients.html" class="sidebar-link">👥 Bệnh nhân</a>
+        <a href="appointments.html" class="sidebar-link">📅 Lịch hẹn</a>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <h1>Quản lý bác sĩ</h1>
+        <p>Danh sách và quản lý toàn bộ bác sĩ trong hệ thống</p>
+      </div>
+
+      <!-- Filter & Add -->
+      <div class="card" style="margin-bottom:1.5rem">
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <input type="text" id="doctor-search" class="form-input" placeholder="Tìm kiếm bác sĩ..." style="flex:1;min-width:200px">
+          <select id="doctor-specialty-filter" class="form-select" style="width:220px"></select>
+          <button class="btn btn-primary" onclick="DoctorsAdmin.openAddModal()">+ Thêm bác sĩ</button>
+        </div>
+      </div>
+
+      <!-- Doctor Grid -->
+      <div class="doctors-grid" id="admin-doctors-grid"></div>
+      <div id="admin-doctors-grid-pagination" style="margin-top:1.5rem"></div>
+    </main>
+  </div>
+
+  <!-- Doctor Modal -->
+  <div class="modal-overlay" id="doctor-modal">
+    <div class="modal" style="max-width:650px">
+      <div class="modal-header">
+        <h3 id="doctor-modal-title">Thêm bác sĩ</h3>
+        <button class="modal-close" onclick="UI.closeModal('doctor-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="doctor-form-id">
+        <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+          <div style="flex:1;min-width:180px;text-align:center">
+            <img id="doctor-avatar-preview" src="https://ui-avatars.com/api/?name=New+Doctor&background=3498db&color=fff&size=200" style="width:160px;height:160px;object-fit:cover;border-radius:50%;border:3px solid var(--border-color)">
+            <div style="margin-top:0.75rem">
+              <input type="file" id="doctor-avatar-input" accept="image/*" style="display:none" onchange="DoctorsAdmin.onAvatarChange(this)">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('doctor-avatar-input').click()">Đổi ảnh</button>
+            </div>
+          </div>
+          <div style="flex:2;min-width:280px">
+            <div class="form-group">
+              <label class="form-label">Họ tên bác sĩ</label>
+              <input type="text" id="doctor-name" class="form-input" placeholder="Nguyễn Văn A">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Chuyên khoa</label>
+              <select id="doctor-specialty" class="form-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Số điện thoại</label>
+              <input type="tel" id="doctor-phone" class="form-input" placeholder="0901234567">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="doctor-email" class="form-input" placeholder="bacsi@clinicflow.com">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Giới thiệu</label>
+          <textarea id="doctor-bio" class="form-textarea" rows="3" placeholder="Giới thiệu về bác sĩ..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Giá khám</label>
+          <input type="number" id="doctor-price" class="form-input" placeholder="300000">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="UI.closeModal('doctor-modal')">Hủy</button>
+        <button class="btn btn-primary" onclick="DoctorsAdmin.saveDoctor()">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/core/ui.js"></script>
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/auth.js"></script>
+  <script src="../../data/seed.js"></script>
+  <script src="../../js/features/doctors-admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check Auth
+      if (!Auth.isAuthenticated() || Auth.getCurrentUser().role !== 'admin') {
+        UI.toast('Bạn không có quyền truy cập', 'error');
+        window.location.href = '../login.html';
+        return;
+      }
+
+      // Seed if needed
+      const storedVersion = localStorage.getItem(Storage.KEYS.SEED_VERSION);
+      if (storedVersion !== Storage.SEED_VERSION) {
+        SeedData.run();
+        localStorage.setItem(Storage.KEYS.SEED_VERSION, Storage.SEED_VERSION);
+      }
+
+      UI.initTheme();
+      UI.initModals();
+
+      // Init
+      DoctorsAdmin.renderSpecialtySelect('doctor-specialty-filter');
+      DoctorsAdmin.renderGrid('admin-doctors-grid');
+
+      // Search
+      const searchInput = document.getElementById('doctor-search');
+      const filterSelect = document.getElementById('doctor-specialty-filter');
+
+      if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            DoctorsAdmin.filters.search = this.value;
+            DoctorsAdmin.currentPage = 1;
+            DoctorsAdmin.renderGrid('admin-doctors-grid');
+          }, 300);
+        });
+      }
+
+      if (filterSelect) {
+        filterSelect.addEventListener('change', function() {
+          DoctorsAdmin.filters.specialty = this.value;
+          DoctorsAdmin.currentPage = 1;
+          DoctorsAdmin.renderGrid('admin-doctors-grid');
+        });
+      }
+
+      // Logout
+      document.getElementById('logout-btn').addEventListener('click', Auth.logout);
+    });
+  </script>
+</body>
+</html>

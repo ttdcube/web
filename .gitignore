@@ -1,6 +1,17 @@
 
-node_modules
-*.db
-*.db-shm
-*.db-wal
+# OS files
+Thumbs.db
 .DS_Store
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.log
+
+# Node (if any)
+node_modules/
+package-lock.json
