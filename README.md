@@ -15,17 +15,19 @@ Hệ thống đặt lịch khám bệnh hoàn chỉnh bằng **HTML/CSS/JavaScri
 
 ## 🚀 Cách chạy hệ thống
 
-### 1. Dùng PowerShell (đề xuất)
-Nhấp phải vào file **`start-server.ps1`** → chọn **Run with PowerShell**!
+### 1. Dùng file .bat (dễ nhất, đề xuất)
+Chỉ cần **nhấp đôi** vào file **`start-server.bat`**! Server sẽ chạy và mở trình duyệt tự động!
 
+### 2. Dùng PowerShell
+Nhấp phải vào file **`start-server.ps1`** → chọn **Run with PowerShell**!
 Nếu báo lỗi chính sách, chạy lệnh này trong PowerShell (quyền Admin):
 ```powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-### 2. Dùng Python (nếu đã cài)
-Mở thư mục dự án → chạy lệnh:
-```powershell
+### 3. Dùng Python thủ công
+Mở Command Prompt/PowerShell trong thư mục dự án → chạy:
+```cmd
 python -m http.server 8000
 ```
 Sau đó mở trình duyệt vào: http://localhost:8000
