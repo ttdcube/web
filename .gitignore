@@ -1,8 +1,6 @@
 
+node_modules
+*.db
+*.db-shm
+*.db-wal
 .DS_Store
-Thumbs.db
-desktop.ini
-*.tmp
-*.log
-node_modules/
-backup-old-project/

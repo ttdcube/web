@@ -62,28 +62,31 @@
         </main>
     </div>
 
-    <script src="data/initial-data.js"></script>
-    <script src="js/storage.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/ui.js"></script>
-    <script src="js/auth.js"></script>
     <script src="js/appointment.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = Auth.getCurrentUser();
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = api.getCurrentUser();
             if (!user || user.role !== 'admin') {
-                UI.showToast("Bạn không có quyền truy cập!", "error");
+                UI.showToast("Ban khong co quyen truy cap!", "error");
                 window.location.href = "index.html";
                 return;
             }
 
-            document.getElementById('logout-btn').addEventListener('click', () => Auth.logout());
+            UI.updateNavbar(user);
 
-            // Render stats
-            document.getElementById('stat-users').textContent = Storage.getUsers().length;
-            document.getElementById('stat-doctors').textContent = Storage.getDoctors().length;
-            document.getElementById('stat-appointments').textContent = Storage.getAppointments().length;
+            try {
+                // Render stats
+                const stats = await api.getAdminStats();
+                document.getElementById('stat-users').textContent = stats.userCount;
+                document.getElementById('stat-doctors').textContent = stats.doctorCount;
+                document.getElementById('stat-appointments').textContent = stats.appointmentCount;
 
-            Appointment.renderAdminList();
+                Appointment.renderAdminList('admin-appointments');
+            } catch (err) {
+                UI.showToast(err.message, 'error');
+            }
         });
     </script>
 </body>

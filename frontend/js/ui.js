@@ -1,14 +1,12 @@
 
-// ui.js - Quản lý giao diện (toast, modal, loading, format, validation)
+// ui.js - Quan ly giao dien
 const UI = {
   // Toast notification
   showToast(message, type = 'success') {
     const container = document.getElementById('toast-container') || this.createToastContainer();
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-      <span>${message}</span>
-    `;
+    toast.textContent = message;
     container.appendChild(toast);
     setTimeout(() => {
       toast.style.animation = 'slideIn 0.3s ease reverse';
@@ -35,13 +33,7 @@ const UI = {
   // Loading
   showLoading(containerId) {
     const container = document.getElementById(containerId);
-    if (container) {
-      container.innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-        </div>
-      `;
-    }
+    if (container) container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
   },
 
   hideLoading(containerId, content) {
@@ -50,68 +42,45 @@ const UI = {
   },
 
   // Empty state
-  showEmpty(containerId, message = "Không có dữ liệu") {
+  showEmpty(containerId, message = 'Khong co du lieu') {
     const container = document.getElementById(containerId);
-    if (container) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-state-icon">📭</div>
-          <p>${message}</p>
-        </div>
-      `;
-    }
+    if (container) container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📭</div><p>${message}</p></div>`;
   },
 
-  // Định dạng tiền
+  // Format tien
   formatCurrency(amount) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
   },
 
-  // Định dạng ngày
-  formatDate(date) {
-    const d = new Date(date);
-    return d.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  },
-
-  // Validation
-  validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  },
-
-  validatePhone(phone) {
-    return /^0[0-9]{9,10}$/.test(phone);
-  },
-
-  // Kiểm tra ngày quá khứ
-  isDateInPast(dateStr) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  // Format ngay
+  formatDate(dateStr) {
     const date = new Date(dateStr);
-    return date < today;
+    return date.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   },
 
-  // Cập nhật navbar theo người dùng
+  // Cap nhat navbar
   updateNavbar(user) {
-    const navLinks = document.querySelectorAll('.navbar-nav');
     const navbarUser = document.querySelector('.navbar-user');
-    
+    const loginBtn = document.querySelector('.navbar-nav .login-btn');
+
     if (user) {
+      if (loginBtn) loginBtn.remove();
       if (navbarUser) {
         navbarUser.innerHTML = `
-          <span>Xin chào, ${user.name}</span>
-          <button class="btn btn-secondary btn-sm" id="logout-btn">Đăng xuất</button>
+          <span>Xin chao, ${user.name}</span>
+          <button class="btn btn-secondary btn-sm" id="logout-btn">Dang xuat</button>
         `;
-        document.getElementById('logout-btn')?.addEventListener('click', () => {
-          Auth.logout();
+        document.getElementById('logout-btn').addEventListener('click', () => {
+          api.clearAuth();
+          UI.showToast('Dang xuat thanh cong!', 'success');
+          window.location.href = 'index.html';
         });
       }
     }
   }
 };
 
-// Đóng modal khi click vào overlay
+// Close modal when clicking outside
 document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('modal-overlay')) {
-    e.target.classList.remove('active');
-  }
+  if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
 });

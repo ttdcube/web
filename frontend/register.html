@@ -46,12 +46,10 @@
         </div>
     </div>
 
-    <script src="data/initial-data.js"></script>
-    <script src="js/storage.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/ui.js"></script>
-    <script src="js/auth.js"></script>
     <script>
-        document.getElementById('register-form').addEventListener('submit', (e) => {
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('register-name').value;
             const email = document.getElementById('register-email').value;
@@ -59,25 +57,13 @@
             const password = document.getElementById('register-password').value;
             const error = document.getElementById('register-error');
 
-            // Validation
-            if (!UI.validateEmail(email)) {
-                error.textContent = "Email không hợp lệ!";
-                error.style.display = "block";
-                return;
-            }
-            if (!UI.validatePhone(phone)) {
-                error.textContent = "Số điện thoại không hợp lệ!";
-                error.style.display = "block";
-                return;
-            }
-
-            const result = Auth.register({ name, email, phone, password });
-            if (result.success) {
-                UI.showToast(result.message, "success");
-                window.location.href = 'login.html';
-            } else {
-                error.textContent = result.message;
-                error.style.display = "block";
+            try {
+                await api.register({ name, email, phone, password });
+                UI.showToast('Dang ky thanh cong!', 'success');
+                window.location.href = 'patient.html';
+            } catch (err) {
+                error.textContent = err.message;
+                error.style.display = 'block';
             }
         });
     </script>
