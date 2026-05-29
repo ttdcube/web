@@ -1,0 +1,227 @@
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="vi"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Kế hoạch Dự án ClinicFlow&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: "Times New Roman", serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        pre {
+            background-color: #f4f6f8;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .toc a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;KẾ HOẠCH DỰ ÁN: HỆ THỐNG ĐẶT LỊCH KHÁM BỆNH ONLINE (CLINICFLOW)&lt;/h1&gt;
+    &lt;p style="text-align: center; color: #7f8c8d;"&gt;Ngày tạo: 29/05/2026&lt;/p&gt;
+
+    &lt;div class="toc"&gt;
+        &lt;h2&gt;Mục lục&lt;/h2&gt;
+        &lt;ol&gt;
+            &lt;li&gt;&lt;a href="#nghiencuu"&gt;Nghiên cứu nền tảng&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#phan-tich"&gt;Phân tích yêu cầu hệ thống&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#user-flow"&gt;Thiết kế User Flow&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#database"&gt;Thiết kế cơ sở dữ liệu chuẩn&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#architecture"&gt;Đề xuất kiến trúc hệ thống tối ưu&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#ly-do"&gt;Giải thích lý do chọn kiến trúc&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#lotrinh"&gt;Lộ trình thực hiện (Sprint Planning)&lt;/a&gt;&lt;/li&gt;
+        &lt;/ol&gt;
+    &lt;/div&gt;
+
+    &lt;h2 id="nghiencuu"&gt;1. Nghiên cứu nền tảng&lt;/h2&gt;
+    &lt;p&gt;Dựa trên nghiên cứu các hệ thống đặt lịch khám hiện đại, dashboard quản lý bệnh viện và giao diện health-tech, chúng tôi rút ra các điểm chính:&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;strong&gt;Thiết kế ưu tiên di động (Mobile-first):&lt;/strong&gt; 80% người dùng truy cập trang healthcare qua điện thoại di động&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Quyền truy cập dựa trên vai trò (RBAC):&lt;/strong&gt; 3 vai trò chính: Bệnh nhân, Bác sĩ, Quản trị viên&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Thiết kế giao diện tin cậy:&lt;/strong&gt; Màu xanh dương/xanh lá cây tạo cảm giác yên tâm, không rườm rà&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Luồng đặt lịch rõ ràng:&lt;/strong&gt; Nhiều bước với chỉ báo tiến trình, yêu cầu thông tin tối thiểu ban đầu&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;RESTful API chuẩn:&lt;/strong&gt; Sử dụng JWT để xác thực, phân lớp rõ ràng&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 id="phan-tich"&gt;2. Phân tích yêu cầu hệ thống&lt;/h2&gt;
+    &lt;h3&gt;Yêu cầu chức năng&lt;/h3&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Module&lt;/th&gt;
+            &lt;th&gt;Yêu cầu chi tiết&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Xác thực người dùng&lt;/td&gt;
+            &lt;td&gt;Đăng ký/Đăng nhập bằng JWT; Mật khẩu mã hóa BCrypt; Phân quyền dựa trên vai trò&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Hồ sơ bệnh nhân&lt;/td&gt;
+            &lt;td&gt;Xem/Cập nhật thông tin cá nhân; Lưu thông tin y tế (nhóm máu, dị ứng, tiền sử bệnh)&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Đặt lịch khám&lt;/td&gt;
+            &lt;td&gt;Tìm kiếm bác sĩ theo chuyên khoa; Xem lịch trống thời gian thực; Xác nhận lịch; Nhắc lại&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Quản lý lịch bác sĩ&lt;/td&gt;
+            &lt;td&gt;Xem lịch tuần; Đánh dấu bận; Xác nhận/từ chối yêu cầu; Xem danh sách bệnh nhân&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Dashboard quản trị&lt;/td&gt;
+            &lt;td&gt;Quản lý người dùng; Tổng quan lịch khám; Thống kê, báo cáo&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Tránh trùng lịch&lt;/td&gt;
+            &lt;td&gt;Hoạt động nguyên tử để khóa slot trong quá trình đặt lịch&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;h3&gt;Yêu cầu phi chức năng&lt;/h3&gt;
+    &lt;ul&gt;
+        &lt;li&gt;Hiệu suất: Thời gian phản hồi &amp;lt; 2 giây&lt;/li&gt;
+        &lt;li&gt;An ninh: Dữ liệu mã hóa, tuân thủ các quy định bảo mật&lt;/li&gt;
+        &lt;li&gt;Khả năng mở rộng: Hỗ trợ hơn 1000 lượt đặt lịch đồng thời&lt;/li&gt;
+        &lt;li&gt;Khả dụng: 99.9% thời gian hoạt động&lt;/li&gt;
+        &lt;li&gt;Tính dễ sử dụng: Độ tương phản cao, tuân thủ WCAG&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 id="user-flow"&gt;3. Thiết kế User Flow&lt;/h2&gt;
+    &lt;h3&gt;3.1 Luồng của Bệnh nhân&lt;/h3&gt;
+    &lt;pre&gt;Trang chủ → (Đăng nhập tùy chọn) → Tìm kiếm bác sĩ → Chọn bác sĩ → Xem lịch trống → Chọn ngày/giờ → Điền thông tin → Xác nhận → Dashboard&lt;/pre&gt;
+    &lt;h3&gt;3.2 Luồng của Bác sĩ&lt;/h3&gt;
+    &lt;pre&gt;Đăng nhập → Dashboard → Xem lịch hôm nay → Đánh dấu bận → Xem xét lịch hẹn → Xem hồ sơ&lt;/pre&gt;
+    &lt;h3&gt;3.3 Luồng của Quản trị viên&lt;/h3&gt;
+    &lt;pre&gt;Đăng nhập → Tổng quan → Quản lý bác sĩ/bệnh nhân → Xem thống kê → Cấu hình&lt;/pre&gt;
+
+    &lt;h2 id="database"&gt;4. Thiết kế cơ sở dữ liệu chuẩn (3NF)&lt;/h2&gt;
+    &lt;h3&gt;4.1 Bảng Người dùng (Users)&lt;/h3&gt;
+    &lt;table&gt;
+        &lt;tr&gt;&lt;th&gt;Cột&lt;/th&gt;&lt;th&gt;Kiểu dữ liệu&lt;/th&gt;&lt;th&gt;Mô tả&lt;/th&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;user_id&lt;/td&gt;&lt;td&gt;INT (PK, Auto Increment)&lt;/td&gt;&lt;td&gt;ID người dùng&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;username&lt;/td&gt;&lt;td&gt;VARCHAR(50) UNIQUE&lt;/td&gt;&lt;td&gt;Tên đăng nhập&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;email&lt;/td&gt;&lt;td&gt;VARCHAR(100) UNIQUE&lt;/td&gt;&lt;td&gt;Email&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;password_hash&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;Mật khẩu mã hóa&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;role&lt;/td&gt;&lt;td&gt;ENUM('PATIENT','DOCTOR','ADMIN')&lt;/td&gt;&lt;td&gt;Vai trò&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;created_at&lt;/td&gt;&lt;td&gt;DATETIME&lt;/td&gt;&lt;td&gt;Thời gian tạo&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+
+    &lt;h3&gt;4.2 Bảng Bệnh nhân (Patients)&lt;/h3&gt;
+    &lt;table&gt;
+        &lt;tr&gt;&lt;th&gt;Cột&lt;/th&gt;&lt;th&gt;Kiểu dữ liệu&lt;/th&gt;&lt;th&gt;Mô tả&lt;/th&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;patient_id&lt;/td&gt;&lt;td&gt;INT (PK)&lt;/td&gt;&lt;td&gt;ID bệnh nhân&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;user_id&lt;/td&gt;&lt;td&gt;INT (FK, UNIQUE)&lt;/td&gt;&lt;td&gt;Liên kết với Users&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;full_name&lt;/td&gt;&lt;td&gt;VARCHAR(100)&lt;/td&gt;&lt;td&gt;Họ tên&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;phone&lt;/td&gt;&lt;td&gt;VARCHAR(20)&lt;/td&gt;&lt;td&gt;Số điện thoại&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;birth_date&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;Ngày sinh&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;blood_type&lt;/td&gt;&lt;td&gt;VARCHAR(5)&lt;/td&gt;&lt;td&gt;Nhóm máu&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;allergies&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;Dị ứng&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+
+    &lt;h3&gt;4.3 Bảng Lịch hẹn (Appointments)&lt;/h3&gt;
+    &lt;table&gt;
+        &lt;tr&gt;&lt;th&gt;Cột&lt;/th&gt;&lt;th&gt;Kiểu dữ liệu&lt;/th&gt;&lt;th&gt;Mô tả&lt;/th&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;appointment_id&lt;/td&gt;&lt;td&gt;INT (PK)&lt;/td&gt;&lt;td&gt;ID lịch hẹn&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;patient_id&lt;/td&gt;&lt;td&gt;INT (FK)&lt;/td&gt;&lt;td&gt;Liên kết với Patients&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;doctor_id&lt;/td&gt;&lt;td&gt;INT (FK)&lt;/td&gt;&lt;td&gt;Liên kết với Doctors&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;slot_id&lt;/td&gt;&lt;td&gt;INT (FK)&lt;/td&gt;&lt;td&gt;Liên kết với Doctor Availability&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;reason&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;Lý do khám&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;status&lt;/td&gt;&lt;td&gt;ENUM&lt;/td&gt;&lt;td&gt;Trạng thái&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+
+    &lt;h2 id="architecture"&gt;5. Đề xuất kiến trúc hệ thống tối ưu&lt;/h2&gt;
+    &lt;pre&gt;
+┌─────────────────────────────────────────┐
+│ Presentation Layer (Giao diện)          │
+│ • React SPA (Responsive)                │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│ Application Layer (Backend)             │
+│ • Node.js + Express + RESTful API       │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│ Data Layer                              │
+│ • MySQL (Quan hệ) + Redis (Cache)       │
+└─────────────────────────────────────────┘
+    &lt;/pre&gt;
+
+    &lt;h2 id="ly-do"&gt;6. Giải thích lý do chọn kiến trúc&lt;/h2&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;strong&gt;React + Express + MySQL:&lt;/strong&gt; Được chứng minh cho các hệ thống healthcare, dễ phát triển và bảo trì&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Redis:&lt;/strong&gt; Ngăn race condition, cache lịch trống, giảm tải DB&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Tách lớp rõ ràng:&lt;/strong&gt; Dễ mở rộng, kiểm thử, bảo trì&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 id="lotrinh"&gt;7. Lộ trình thực hiện (Sprint Planning)&lt;/h2&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Sprint&lt;/th&gt;
+            &lt;th&gt;Kết quả cần đạt được&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Sprint 1&lt;/td&gt;
+            &lt;td&gt;Cấu trúc dự án, CSDL, xác thực JWT, giao diện đăng nhập&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Sprint 2&lt;/td&gt;
+            &lt;td&gt;CRUD hồ sơ bệnh nhân và bác sĩ&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Sprint 3&lt;/td&gt;
+            &lt;td&gt;Quản lý thời gian trống, luồng đặt lịch&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Sprint 4&lt;/td&gt;
+            &lt;td&gt;Dashboard bệnh nhân, bác sĩ, admin&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Sprint 5&lt;/td&gt;
+            &lt;td&gt;Hoàn thiện UI/UX, nhắc nhở, triển khai&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
