@@ -1,0 +1,72 @@
+@media (max-width: 920px) {
+  .icon-button {
+    display: inline-grid;
+    place-items: center;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 72px;
+    right: 6vw;
+    display: none;
+    width: min(280px, 88vw);
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: var(--shadow);
+  }
+
+  .main-nav.open {
+    display: grid;
+  }
+
+  .hero-section,
+  .dashboard-layout,
+  .feature-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section {
+    min-height: auto;
+    padding-top: 34px;
+  }
+
+  .summary-card {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding: 0 4vw;
+  }
+
+  .page,
+  .dashboard-layout,
+  .hero-section,
+  .feature-grid {
+    width: min(94vw, 1180px);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(2rem, 12vw, 3.4rem);
+  }
+
+  .panel,
+  .info-card,
+  .summary-card,
+  .hero-card {
+    padding: 20px;
+  }
+
+  .doctor-picker,
+  .time-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-row .button {
+    width: 100%;
+  }
+}

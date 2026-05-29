@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ClinicFlow - hệ thống đặt lịch khám bệnh trực tuyến.">
+  <title>ClinicFlow - Đặt lịch khám bệnh trực tuyến</title>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="ClinicFlow">
+      <img src="assets/images/clinicflow-logo.svg" alt="">
+      <span>ClinicFlow</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Trang chủ</a>
+      <a href="patient-profile.html">Bệnh nhân</a>
+      <a href="doctor-schedule.html">Bác sĩ</a>
+    </nav>
+    <button class="icon-button" id="menuButton" type="button" aria-label="Mở menu">☰</button>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div>
+        <p class="eyebrow">HealthTech tối giản</p>
+        <h1>Đặt lịch khám bệnh trực tuyến an toàn, rõ ràng và nhanh chóng.</h1>
+        <p class="hero-copy">
+          ClinicFlow giúp bệnh nhân quản lý hồ sơ cá nhân, chọn bác sĩ, chọn ngày giờ khám và theo dõi trạng thái lịch hẹn trên mọi thiết bị.
+        </p>
+        <div class="action-row">
+          <a class="button primary" href="patient-profile.html">Vào khu bệnh nhân</a>
+          <a class="button secondary" href="doctor-schedule.html">Vào khu bác sĩ</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="metric">
+          <strong id="homePatientCount">0</strong>
+          <span>Hồ sơ bệnh nhân</span>
+        </div>
+        <div class="metric">
+          <strong id="homeDoctorCount">0</strong>
+          <span>Bác sĩ</span>
+        </div>
+        <div class="metric">
+          <strong id="homeTodayCount">0</strong>
+          <span>Lịch hôm nay</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="feature-grid">
+      <article class="info-card">
+        <img src="assets/images/patient-icon.svg" alt="">
+        <h2>Hồ sơ bệnh nhân</h2>
+        <p>Lưu thông tin hành chính, nhóm máu, dị ứng nghiêm trọng và tiền sử bệnh.</p>
+      </article>
+      <article class="info-card">
+        <img src="assets/images/calendar-icon.svg" alt="">
+        <h2>Lịch khám trực quan</h2>
+        <p>Khung giờ được mã hóa màu: xanh là rảnh, xám là đã đặt, vàng là bác sĩ bận.</p>
+      </article>
+      <article class="info-card">
+        <img src="assets/images/security-icon.svg" alt="">
+        <h2>Luồng không độ trễ</h2>
+        <p>Chọn bác sĩ, ngày, giờ và xác nhận ngay trên cùng một giao diện.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">ClinicFlow - Medical Booking HTML</footer>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script src="assets/js/profile.js"></script>
+</body>
+</html>

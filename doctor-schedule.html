@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch bác sĩ - ClinicFlow</title>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <img src="assets/images/clinicflow-logo.svg" alt="">
+      <span>ClinicFlow</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Trang chủ</a>
+      <a href="patient-profile.html">Bệnh nhân</a>
+      <a class="active" href="doctor-schedule.html">Bác sĩ</a>
+    </nav>
+    <button class="icon-button" id="menuButton" type="button" aria-label="Mở menu">☰</button>
+  </header>
+
+  <main class="page">
+    <section class="panel">
+      <p class="eyebrow">Calendar view</p>
+      <h1>Quản lý thời gian khám của bác sĩ</h1>
+      <p class="section-note">Click vào ô xanh để đánh dấu bác sĩ bận đột xuất. Ô xám là đã có bệnh nhân đặt, ô vàng là bận.</p>
+      <div class="calendar-legend">
+        <span class="legend-free">Giờ rảnh</span>
+        <span class="legend-booked">Đã đặt</span>
+        <span class="legend-busy">Bác sĩ bận</span>
+      </div>
+      <div class="calendar-view" id="doctorCalendar"></div>
+    </section>
+
+    <section class="panel section-gap">
+      <p class="eyebrow">Danh sách bệnh nhân</p>
+      <h2>Bệnh nhân đã đặt lịch</h2>
+      <div class="appointment-list" id="doctorAppointmentList"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">ClinicFlow - Lịch bác sĩ</footer>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script src="assets/js/schedule.js"></script>
+</body>
+</html>
