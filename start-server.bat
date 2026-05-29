@@ -1,57 +1,16 @@
 
 @echo off
-title ClinicFlow - He thong dat lich kham
-mode con: cols=90 lines=25
+title ClinicFlow - Server
 color 0B
-chcp 65001 >nul
-
-:: In logo
-cls
 echo.
-echo    ██████╗██╗  ██╗██╗███╗   ██╗██╗ ██████╗███████╗██╗      ██████╗ ██╗    ██╗
-echo   ██╔════╝██║  ██║██║████╗  ██║██║██╔════╝██╔════╝██║     ██╔═══██╗██║    ██║
-echo   ██║     ███████║██║██╔██╗ ██║██║██║     █████╗  ██║     ██║   ██║██║ █╗ ██║
-echo   ██║     ██╔══██║██║██║╚██╗██║██║██║     ██╔══╝  ██║     ██║   ██║██║███╗██║
-echo   ╚██████╗██║  ██║██║██║ ╚████║██║╚██████╗██║     ███████╗╚██████╔╝╚███╔███╔╝
-echo    ╚═════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝ ╚═════╝╚═╝     ╚══════╝ ╚═════╝  ╚══╝╚══╝
+echo DANG KHOI DONG SERVER CLINICFLOW...
 echo.
-echo                        HE THONG DAT LICH KHAM BENH
+echo Server se chay tai: http://localhost:8000
 echo.
-echo ===============================================================================
-echo.
-
-:: Kiểm tra Python
-python --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [LOI] Python chua duoc cai dat!
-    echo Vui long tai Python tu: https://www.python.org/downloads/
-    echo.
-    pause
-    exit /b
-)
-
-echo [OK] Python da duoc cai dat!
-echo.
-
-:: Port mặc định
-set PORT=8000
-
-:: Thông báo
-echo.
-echo ===============================================================================
-echo OK SERVER DANG CHAY THANH CONG!
-echo Dia chi server:  http://localhost:%PORT%
-echo Thu muc goc:     %cd%
-echo ===============================================================================
-echo Nhan Ctrl + C de dung server
-echo.
-
-:: Mở trình duyệt (chờ 1.5 giây để server khởi động)
+echo DANG MO TRINH DUYET...
 timeout /t 2 /nobreak >nul
-start http://localhost:%PORT%
-
-:: Chạy server Python
-python -m http.server %PORT%
-
+start http://localhost:8000
 echo.
+echo DANG CHAY SERVER (NHAN Ctrl+C DE DUNG)...
+python -m http.server 8000
 pause
