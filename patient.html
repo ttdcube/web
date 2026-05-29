@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bệnh nhân - ClinicFlow</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">🏥 ClinicFlow</a>
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link">Trang chủ</a>
+                <a href="patient.html" class="navbar-link active">Bệnh nhân</a>
+            </div>
+            <div class="navbar-user">
+                <span>Xin chào</span>
+                <button class="btn btn-secondary btn-sm" id="logout-btn">Đăng xuất</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
+            <h2>Lịch sử đặt lịch</h2>
+            <a href="index.html#doctors" class="btn btn-primary">Đặt lịch mới</a>
+        </div>
+        <div id="patient-appointments">
+            <!-- Appointments rendered here -->
+        </div>
+    </div>
+
+    <!-- Modal đặt lịch -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Đặt lịch khám</h3>
+                <button class="modal-close" onclick="UI.closeModal('booking-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-doctor-info" style="margin-bottom:1.5rem;"></div>
+                <div class="form-group">
+                    <label class="form-label">Ngày khám</label>
+                    <input type="date" id="booking-date" class="form-input" onchange="Doctor.onDateChange()">
+                </div>
+                <div id="time-slots-container"></div>
+                <div class="form-group" style="margin-top:1rem;">
+                    <label class="form-label">Lý do khám (tùy chọn)</label>
+                    <textarea id="booking-reason" class="form-input" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="UI.closeModal('booking-modal')">Hủy</button>
+                <button class="btn btn-primary" onclick="Doctor.confirmBooking()">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/initial-data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/appointment.js"></script>
+    <script src="js/doctor.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = Auth.getCurrentUser();
+            if (!user) {
+                UI.showToast("Vui lòng đăng nhập!", "warning");
+                window.location.href = "login.html";
+                return;
+            }
+
+            UI.updateNavbar(user);
+            document.getElementById('logout-btn').addEventListener('click', () => Auth.logout());
+            Appointment.renderPatientList();
+        });
+    </script>
+</body>
+</html>

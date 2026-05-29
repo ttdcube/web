@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - ClinicFlow</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">🏥 ClinicFlow</a>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="card auth-card">
+            <h1 class="auth-title">Đăng ký</h1>
+            <p class="auth-subtitle">Tạo tài khoản để trải nghiệm dịch vụ của chúng tôi</p>
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label">Họ và tên</label>
+                    <input type="text" id="register-name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="register-email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="tel" id="register-phone" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu</label>
+                    <input type="password" id="register-password" class="form-input" required minlength="6">
+                </div>
+                <div id="register-error" class="error-message" style="display:none;"></div>
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top:1rem;">Đăng ký</button>
+            </form>
+            <p style="text-align:center;margin-top:1.5rem;">
+                Đã có tài khoản? <a href="login.html" style="color:var(--color-primary);font-weight:500;">Đăng nhập</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="data/initial-data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const password = document.getElementById('register-password').value;
+            const error = document.getElementById('register-error');
+
+            // Validation
+            if (!UI.validateEmail(email)) {
+                error.textContent = "Email không hợp lệ!";
+                error.style.display = "block";
+                return;
+            }
+            if (!UI.validatePhone(phone)) {
+                error.textContent = "Số điện thoại không hợp lệ!";
+                error.style.display = "block";
+                return;
+            }
+
+            const result = Auth.register({ name, email, phone, password });
+            if (result.success) {
+                UI.showToast(result.message, "success");
+                window.location.href = 'login.html';
+            } else {
+                error.textContent = result.message;
+                error.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>

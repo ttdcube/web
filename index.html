@@ -1,80 +1,115 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ClinicFlow - hệ thống đặt lịch khám bệnh trực tuyến.">
-  <title>ClinicFlow - Đặt lịch khám bệnh trực tuyến</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/layout.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClinicFlow - Đặt lịch khám bệnh trực tuyến</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="index.html" aria-label="ClinicFlow">
-      <img src="assets/images/clinicflow-logo.svg" alt="">
-      <span>ClinicFlow</span>
-    </a>
-    <nav class="main-nav" id="mainNav">
-      <a href="index.html">Trang chủ</a>
-      <a href="patient-profile.html">Bệnh nhân</a>
-      <a href="doctor-schedule.html">Bác sĩ</a>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                🏥 ClinicFlow
+            </a>
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link active">Trang chủ</a>
+                <a href="patient.html" class="navbar-link">Bệnh nhân</a>
+                <a href="admin.html" class="navbar-link">Quản trị</a>
+            </div>
+            <div class="navbar-user">
+                <a href="login.html" class="btn btn-primary btn-sm">Đăng nhập</a>
+            </div>
+        </div>
     </nav>
-    <button class="icon-button" id="menuButton" type="button" aria-label="Mở menu">☰</button>
-  </header>
 
-  <main>
-    <section class="hero-section">
-      <div>
-        <p class="eyebrow">HealthTech tối giản</p>
-        <h1>Đặt lịch khám bệnh trực tuyến an toàn, rõ ràng và nhanh chóng.</h1>
-        <p class="hero-copy">
-          ClinicFlow giúp bệnh nhân quản lý hồ sơ cá nhân, chọn bác sĩ, chọn ngày giờ khám và theo dõi trạng thái lịch hẹn trên mọi thiết bị.
-        </p>
-        <div class="action-row">
-          <a class="button primary" href="patient-profile.html">Vào khu bệnh nhân</a>
-          <a class="button secondary" href="doctor-schedule.html">Vào khu bác sĩ</a>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div>
+                <h1 class="hero-title">Đặt lịch khám bệnh<br>dễ dàng, nhanh chóng</h1>
+                <p class="hero-subtitle">
+                    Chọn bác sĩ, chọn thời gian, đặt lịch chỉ trong vài phút. Không cần đợi, không cần xếp hàng!
+                </p>
+                <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                    <a href="#doctors" class="btn btn-primary">Đặt lịch ngay</a>
+                    <a href="login.html" class="btn btn-secondary">Tạo tài khoản</a>
+                </div>
+            </div>
+            <div style="text-align:center;">
+                <span style="font-size:8rem;">👨‍⚕️</span>
+            </div>
         </div>
-      </div>
-      <aside class="hero-card">
-        <div class="metric">
-          <strong id="homePatientCount">0</strong>
-          <span>Hồ sơ bệnh nhân</span>
-        </div>
-        <div class="metric">
-          <strong id="homeDoctorCount">0</strong>
-          <span>Bác sĩ</span>
-        </div>
-        <div class="metric">
-          <strong id="homeTodayCount">0</strong>
-          <span>Lịch hôm nay</span>
-        </div>
-      </aside>
     </section>
 
-    <section class="feature-grid">
-      <article class="info-card">
-        <img src="assets/images/patient-icon.svg" alt="">
-        <h2>Hồ sơ bệnh nhân</h2>
-        <p>Lưu thông tin hành chính, nhóm máu, dị ứng nghiêm trọng và tiền sử bệnh.</p>
-      </article>
-      <article class="info-card">
-        <img src="assets/images/calendar-icon.svg" alt="">
-        <h2>Lịch khám trực quan</h2>
-        <p>Khung giờ được mã hóa màu: xanh là rảnh, xám là đã đặt, vàng là bác sĩ bận.</p>
-      </article>
-      <article class="info-card">
-        <img src="assets/images/security-icon.svg" alt="">
-        <h2>Luồng không độ trễ</h2>
-        <p>Chọn bác sĩ, ngày, giờ và xác nhận ngay trên cùng một giao diện.</p>
-      </article>
+    <!-- Danh sách bác sĩ -->
+    <section class="container" id="doctors">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;">
+            <h2>Đội ngũ bác sĩ</h2>
+            <select id="specialty-filter" class="form-input" style="max-width:200px;">
+            </select>
+        </div>
+        <div class="doctor-grid" id="doctor-grid">
+            <!-- Doctor cards rendered here -->
+        </div>
     </section>
-  </main>
 
-  <footer class="site-footer">ClinicFlow - Medical Booking HTML</footer>
-  <script src="assets/js/api.js"></script>
-  <script src="assets/js/validation.js"></script>
-  <script src="assets/js/profile.js"></script>
+    <!-- Modal đặt lịch -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Đặt lịch khám</h3>
+                <button class="modal-close" onclick="UI.closeModal('booking-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-doctor-info" style="margin-bottom:1.5rem;"></div>
+                <div class="form-group">
+                    <label class="form-label">Ngày khám</label>
+                    <input type="date" id="booking-date" class="form-input" onchange="Doctor.onDateChange()">
+                </div>
+                <div id="time-slots-container"></div>
+                <div class="form-group" style="margin-top:1rem;">
+                    <label class="form-label">Lý do khám (tùy chọn)</label>
+                    <textarea id="booking-reason" class="form-input" rows="3" placeholder="Mô tả triệu chứng của bạn..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="UI.closeModal('booking-modal')">Hủy</button>
+                <button class="btn btn-primary" onclick="Doctor.confirmBooking()">Xác nhận đặt lịch</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/initial-data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/appointment.js"></script>
+    <script src="js/doctor.js"></script>
+    <script>
+        // Khởi tạo trang
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cập nhật navbar
+            const user = Auth.getCurrentUser();
+            if (user) {
+                UI.updateNavbar(user);
+            }
+
+            // Render bác sĩ
+            Doctor.renderSpecialtySelect('specialty-filter');
+            Doctor.renderGrid('doctor-grid');
+            
+            // Lọc theo chuyên khoa
+            document.getElementById('specialty-filter').addEventListener('change', (e) => {
+                Doctor.renderGrid('doctor-grid', e.target.value);
+            });
+        });
+    </script>
 </body>
 </html>
