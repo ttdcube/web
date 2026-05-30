@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký - ClinicFlow</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="../index.html" class="navbar-brand">🏥 ClinicFlow</a>
+      <div class="navbar-user">
+        <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-container">
+    <div class="card auth-card">
+      <h1 class="auth-title">Đăng ký</h1>
+      <p class="auth-subtitle">Tạo tài khoản để trải nghiệm dịch vụ</p>
+      <form id="register-form">
+        <div class="form-group">
+          <label class="form-label">Họ và tên</label>
+          <input type="text" id="register-name" class="form-input" placeholder="Nguyễn Văn A" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" id="register-email" class="form-input" placeholder="email@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Số điện thoại</label>
+          <input type="tel" id="register-phone" class="form-input" placeholder="0901234567" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mật khẩu</label>
+          <div style="position:relative">
+            <input type="password" id="register-password" class="form-input" placeholder="••••••••" required minlength="6">
+            <button type="button" onclick="UI.togglePassword('register-password', this)" style="position:absolute; right:1rem; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:1.125rem; color:var(--text-muted)">👁️</button>
+          </div>
+        </div>
+        <div id="register-error" class="error-message" style="display:none"></div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top:0.5rem" id="register-btn">Đăng ký</button>
+      </form>
+      <p style="text-align:center; margin-top:1.5rem">
+        Đã có tài khoản? <a href="login.html">Đăng nhập</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/core/ui.js"></script>
+  <script src="../js/core/api.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      UI.initTheme();
+
+      if (Auth.isAuthenticated()) {
+        window.location.href = 'patient/index.html';
+        return;
+      }
+
+      document.getElementById('register-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const fullName = document.getElementById('register-name').value;
+        const email = document.getElementById('register-email').value;
+        const phone = document.getElementById('register-phone').value;
+        const password = document.getElementById('register-password').value;
+        const error = document.getElementById('register-error');
+        const btn = document.getElementById('register-btn');
+
+        btn.disabled = true;
+        btn.textContent = 'Đang xử lý...';
+
+        const result = await Auth.register({ fullName, email, phone, password });
+        if (!result.success) {
+          error.textContent = result.message;
+          error.style.display = 'block';
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Đăng ký';
+      });
+    });
+  </script>
+</body>
+</html>

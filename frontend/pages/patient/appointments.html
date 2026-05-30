@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch khám - ClinicFlow</title>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="UI.openSidebar()">☰</button>
+      <a href="../index.html" style="font-size:1.25rem; font-weight:700; color:var(--color-primary)">🏥 ClinicFlow</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      <div class="topbar-user">
+        <img id="topbar-avatar" src="" alt="" class="topbar-avatar">
+        <span id="topbar-name" class="topbar-name"></span>
+      </div>
+      <button id="logout-btn" class="btn btn-secondary btn-sm">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-menu">
+        <a href="index.html" class="sidebar-link">📊 Tổng quan</a>
+        <a href="appointments.html" class="sidebar-link active">📅 Lịch khám</a>
+        <a href="profile.html" class="sidebar-link">👤 Hồ sơ cá nhân</a>
+      </div>
+    </aside>
+
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <h1>Lịch khám của bạn</h1>
+        <p>Xem và quản lý các cuộc hẹn khám bệnh</p>
+      </div>
+
+      <div class="card" style="margin-bottom:1.5rem">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap">
+          <h3>Lịch khám của bạn</h3>
+          <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap">
+            <select id="appointment-filter" class="form-select" style="max-width:200px">
+              <option value="All">Tất cả trạng thái</option>
+              <option value="pending">Chờ xác nhận</option>
+              <option value="confirmed">Đã xác nhận</option>
+              <option value="completed">Hoàn thành</option>
+              <option value="cancelled">Đã hủy</option>
+            </select>
+            <a href="../doctors.html" class="btn btn-primary">Đặt lịch mới</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="patient-appointments"></div>
+    </main>
+  </div>
+
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/core/ui.js"></script>
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/auth.js"></script>
+  <script src="../../data/seed.js"></script>
+  <script src="../../js/features/appointments.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Storage.init();
+      UI.initTheme();
+
+      if (!Auth.isAuthenticated()) {
+        UI.toast('Vui lòng đăng nhập để tiếp tục', 'warning');
+        window.location.href = '../login.html';
+        return;
+      }
+
+      const patient = Auth.getCurrentPatient();
+      if (!patient) return;
+
+      document.getElementById('topbar-name').textContent = patient.fullName;
+      document.getElementById('topbar-avatar').src = patient.avatar;
+
+      Appointments.renderPatientList('patient-appointments');
+
+      document.getElementById('appointment-filter').addEventListener('change', function() {
+        Appointments.currentFilter = this.value;
+        Appointments.renderPatientList('patient-appointments');
+      });
+
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        Auth.logout();
+      });
+    });
+  </script>
+</body>
+</html>

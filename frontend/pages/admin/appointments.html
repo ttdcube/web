@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý lịch hẹn - ClinicFlow</title>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="UI.openSidebar()">☰</button>
+      <a href="../../index.html" style="font-size:1.25rem;font-weight:700;color:var(--color-primary)">🏥 ClinicFlow Admin</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      <button id="logout-btn" class="btn btn-secondary btn-sm">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-menu">
+        <a href="index.html" class="sidebar-link">📊 Tổng quan</a>
+        <a href="doctors.html" class="sidebar-link">👨‍⚕️ Bác sĩ</a>
+        <a href="patients.html" class="sidebar-link">👥 Bệnh nhân</a>
+        <a href="appointments.html" class="sidebar-link active">📅 Lịch hẹn</a>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <h1>Quản lý lịch hẹn</h1>
+        <p>Danh sách và quản lý toàn bộ cuộc hẹn trong hệ thống</p>
+      </div>
+
+      <!-- Filters -->
+      <div class="card" style="margin-bottom:1.5rem">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;align-items:center">
+          <input type="text" id="appt-search" class="form-input" placeholder="Tìm kiếm lịch hẹn...">
+          <select id="appt-doctor-filter" class="form-select"></select>
+          <select id="appt-status-filter" class="form-select">
+            <option value="All">Tất cả trạng thái</option>
+            <option value="pending">Chờ xác nhận</option>
+            <option value="confirmed">Đã xác nhận</option>
+            <option value="completed">Hoàn thành</option>
+            <option value="cancelled">Đã hủy</option>
+          </select>
+          <input type="date" id="appt-date-from" class="form-input" placeholder="Từ ngày">
+          <input type="date" id="appt-date-to" class="form-input" placeholder="Đến ngày">
+        </div>
+      </div>
+
+      <!-- Appointment List -->
+      <div id="admin-appointments-grid"></div>
+      <div id="admin-appointments-grid-pagination" style="margin-top:1.5rem"></div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/core/ui.js"></script>
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/auth.js"></script>
+  <script src="../../data/seed.js"></script>
+  <script src="../../js/features/appointments-admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check Auth
+      if (!Auth.isAuthenticated() || Auth.getCurrentUser().role !== 'admin') {
+        UI.toast('Bạn không có quyền truy cập', 'error');
+        window.location.href = '../login.html';
+        return;
+      }
+
+      // Seed if needed
+      const storedVersion = localStorage.getItem(Storage.KEYS.SEED_VERSION);
+      if (storedVersion !== Storage.SEED_VERSION) {
+        SeedData.run();
+        localStorage.setItem(Storage.KEYS.SEED_VERSION, Storage.SEED_VERSION);
+      }
+
+      UI.initTheme();
+
+      // Init
+      AppointmentsAdmin.renderDoctorFilter('appt-doctor-filter');
+      AppointmentsAdmin.renderList('admin-appointments-grid');
+
+      // Filters
+      const searchInput = document.getElementById('appt-search');
+      const doctorFilter = document.getElementById('appt-doctor-filter');
+      const statusFilter = document.getElementById('appt-status-filter');
+      const dateFrom = document.getElementById('appt-date-from');
+      const dateTo = document.getElementById('appt-date-to');
+
+      const applyFilters = function() {
+        AppointmentsAdmin.filters.search = searchInput.value;
+        AppointmentsAdmin.filters.doctorId = doctorFilter.value;
+        AppointmentsAdmin.filters.status = statusFilter.value;
+        AppointmentsAdmin.filters.dateFrom = dateFrom.value;
+        AppointmentsAdmin.filters.dateTo = dateTo.value;
+        AppointmentsAdmin.currentPage = 1;
+        AppointmentsAdmin.renderList('admin-appointments-grid');
+      };
+
+      if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(applyFilters, 300);
+        });
+      }
+      if (doctorFilter) doctorFilter.addEventListener('change', applyFilters);
+      if (statusFilter) statusFilter.addEventListener('change', applyFilters);
+      if (dateFrom) dateFrom.addEventListener('change', applyFilters);
+      if (dateTo) dateTo.addEventListener('change', applyFilters);
+
+      // Logout
+      document.getElementById('logout-btn').addEventListener('click', Auth.logout);
+    });
+  </script>
+</body>
+</html>
