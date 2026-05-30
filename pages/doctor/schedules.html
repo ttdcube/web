@@ -1,100 +1,100 @@
 
-&lt;!DOCTYPE html&gt;
-&lt;html lang="vi"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-  &lt;title&gt;Doctor Schedules - ClinicFlow&lt;/title&gt;
-  &lt;link rel="stylesheet" href="../../css/base.css"&gt;
-  &lt;link rel="stylesheet" href="../../css/components.css"&gt;
-  &lt;link rel="stylesheet" href="../../css/layout.css"&gt;
-  &lt;link rel="stylesheet" href="../../css/responsive.css"&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;div class="topbar"&gt;
-    &lt;div class="topbar-left"&gt;
-      &lt;button class="mobile-menu-btn" onclick="UI.openSidebar()"&gt;☰&lt;/button&gt;
-      &lt;a href="../../index.html" style="font-size:1.25rem; font-weight:700; color:var(--color-primary)"&gt;🏥 ClinicFlow&lt;/a&gt;
-    &lt;/div&gt;
-    &lt;div class="topbar-right"&gt;
-      &lt;button id="theme-toggle" class="btn btn-secondary btn-sm"&gt;🌙&lt;/button&gt;
-      &lt;div class="topbar-user"&gt;
-        &lt;img id="topbar-avatar" src="" alt="" class="topbar-avatar"&gt;
-        &lt;span id="topbar-name" class="topbar-name"&gt;&lt;/span&gt;
-      &lt;/div&gt;
-      &lt;button id="logout-btn" class="btn btn-secondary btn-sm"&gt;Đăng xuất&lt;/button&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch làm việc - ClinicFlow</title>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="UI.openSidebar()">☰</button>
+      <a href="../../index.html" style="font-size:1.25rem; font-weight:700; color:var(--color-primary)">🏥 ClinicFlow</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      <div class="topbar-user">
+        <img id="topbar-avatar" src="" alt="" class="topbar-avatar">
+        <span id="topbar-name" class="topbar-name"></span>
+      </div>
+      <button id="logout-btn" class="btn btn-secondary btn-sm">Đăng xuất</button>
+    </div>
+  </div>
 
-  &lt;div class="dashboard-layout"&gt;
-    &lt;div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"&gt;&lt;/div&gt;
-    &lt;aside class="sidebar" id="sidebar"&gt;
-      &lt;div class="sidebar-menu"&gt;
-        &lt;a href="dashboard.html" class="sidebar-link"&gt;📊 Tổng quan&lt;/a&gt;
-        &lt;a href="appointments.html" class="sidebar-link"&gt;📅 Lịch khám&lt;/a&gt;
-        &lt;a href="patients.html" class="sidebar-link"&gt;👥 Bệnh nhân&lt;/a&gt;
-        &lt;a href="profile.html" class="sidebar-link"&gt;👤 Hồ sơ&lt;/a&gt;
-        &lt;a href="schedules.html" class="sidebar-link active"&gt;🕒 Lịch làm việc&lt;/a&gt;
-      &lt;/div&gt;
-    &lt;/aside&gt;
+  <div class="dashboard-layout">
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-link">📊 Tổng quan</a>
+        <a href="appointments.html" class="sidebar-link">📅 Lịch khám</a>
+        <a href="patients.html" class="sidebar-link">👥 Bệnh nhân</a>
+        <a href="profile.html" class="sidebar-link">👤 Hồ sơ</a>
+        <a href="schedules.html" class="sidebar-link active">🕒 Lịch làm việc</a>
+      </div>
+    </aside>
 
-    &lt;main class="dashboard-content"&gt;
-      &lt;div class="dashboard-header"&gt;
-        &lt;h1&gt;Lịch làm việc&lt;/h1&gt;
-        &lt;p&gt;Cập nhật thời gian khám&lt;/p&gt;
-      &lt;/div&gt;
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <h1>Lịch làm việc</h1>
+        <p>Cập nhật thời gian khám</p>
+      </div>
 
-      &lt;div class="card" style="max-width:600px;"&gt;
-        &lt;form id="schedule-form"&gt;
-          &lt;div class="form-group"&gt;
-            &lt;label class="form-label"&gt;Ngày làm việc&lt;/label&gt;
-            &lt;div style="display:flex; gap:0.5rem; flex-wrap:wrap;"&gt;
-              &lt;label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;"&gt;
-                &lt;input type="checkbox" id="day-2" value="2"&gt; Thứ 2
-              &lt;/label&gt;
-              &lt;label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;"&gt;
-                &lt;input type="checkbox" id="day-3" value="3"&gt; Thứ 3
-              &lt;/label&gt;
-              &lt;label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;"&gt;
-                &lt;input type="checkbox" id="day-4" value="4"&gt; Thứ 4
-              &lt;/label&gt;
-              &lt;label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;"&gt;
-                &lt;input type="checkbox" id="day-5" value="5"&gt; Thứ 5
-              &lt;/label&gt;
-              &lt;label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;"&gt;
-                &lt;input type="checkbox" id="day-6" value="6"&gt; Thứ 6
-              &lt;/label&gt;
-              &lt;label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;"&gt;
-                &lt;input type="checkbox" id="day-7" value="7"&gt; Thứ 7
-              &lt;/label&gt;
-              &lt;label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;"&gt;
-                &lt;input type="checkbox" id="day-1" value="1"&gt; Chủ nhật
-              &lt;/label&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
+      <div class="card" style="max-width:600px;">
+        <form id="schedule-form">
+          <div class="form-group">
+            <label class="form-label">Ngày làm việc</label>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
+                <input type="checkbox" id="day-2" value="2"> Thứ 2
+              </label>
+              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
+                <input type="checkbox" id="day-3" value="3"> Thứ 3
+              </label>
+              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
+                <input type="checkbox" id="day-4" value="4"> Thứ 4
+              </label>
+              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
+                <input type="checkbox" id="day-5" value="5"> Thứ 5
+              </label>
+              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
+                <input type="checkbox" id="day-6" value="6"> Thứ 6
+              </label>
+              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
+                <input type="checkbox" id="day-7" value="7"> Thứ 7
+              </label>
+              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
+                <input type="checkbox" id="day-1" value="1"> Chủ nhật
+              </label>
+            </div>
+          </div>
 
-          &lt;div class="form-group"&gt;
-            &lt;label class="form-label"&gt;Giờ bắt đầu&lt;/label&gt;
-            &lt;input type="time" id="startTime" class="form-input" required&gt;
-          &lt;/div&gt;
+          <div class="form-group">
+            <label class="form-label">Giờ bắt đầu</label>
+            <input type="time" id="startTime" class="form-input" required>
+          </div>
 
-          &lt;div class="form-group"&gt;
-            &lt;label class="form-label"&gt;Giờ kết thúc&lt;/label&gt;
-            &lt;input type="time" id="endTime" class="form-input" required&gt;
-          &lt;/div&gt;
+          <div class="form-group">
+            <label class="form-label">Giờ kết thúc</label>
+            <input type="time" id="endTime" class="form-input" required>
+          </div>
 
-          &lt;button type="submit" class="btn btn-primary btn-block"&gt;Lưu thay đổi&lt;/button&gt;
-        &lt;/form&gt;
-      &lt;/div&gt;
-    &lt;/main&gt;
-  &lt;/div&gt;
+          <button type="submit" class="btn btn-primary btn-block">Lưu thay đổi</button>
+        </form>
+      </div>
+    </main>
+  </div>
 
-  &lt;script src="../../js/utils.js"&gt;&lt;/script&gt;
-  &lt;script src="../../js/core/ui.js"&gt;&lt;/script&gt;
-  &lt;script src="../../js/core/storage.js"&gt;&lt;/script&gt;
-  &lt;script src="../../js/core/auth.js"&gt;&lt;/script&gt;
-  &lt;script src="../../data/seed.js"&gt;&lt;/script&gt;
-  &lt;script&gt;
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/core/ui.js"></script>
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/auth.js"></script>
+  <script src="../../data/seed.js"></script>
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
       Storage.init();
       UI.initTheme();
@@ -115,8 +115,7 @@
       document.getElementById('topbar-name').textContent = doctor.fullName;
       document.getElementById('topbar-avatar').src = doctor.avatar;
 
-      // Load existing schedule
-      (doctor.availableDays || []).forEach(day =&gt; {
+      (doctor.availableDays || []).forEach(day => {
         const checkbox = document.getElementById('day-' + day);
         if (checkbox) checkbox.checked = true;
       });
@@ -126,9 +125,9 @@
       document.getElementById('schedule-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const selectedDays = [];
-        for (let day = 1; day &lt;= 7; day++) {
+        for (let day = 1; day <= 7; day++) {
           const checkbox = document.getElementById('day-' + day);
-          if (checkbox &amp;&amp; checkbox.checked) {
+          if (checkbox && checkbox.checked) {
             selectedDays.push(day);
           }
         }
@@ -148,6 +147,6 @@
         Auth.logout();
       });
     });
-  &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+  </script>
+</body>
+</html>
