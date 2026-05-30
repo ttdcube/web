@@ -12,59 +12,36 @@ const DoctorSchedules = {
   schedules: {},
 
   init: function() {
+    console.log('DoctorSchedules.init() called');
     this.loadSchedules();
     this.render();
   },
 
   loadSchedules: function() {
     const doctor = Auth.getCurrentDoctor();
+    console.log('Loading schedules for doctor:', doctor);
     if (!doctor) return;
 
-    // Upgrade from old format
-    if (doctor.availableDays && !doctor.schedules) {
-      const oldStart = doctor.availableTimeStart || '08:00';
-      const oldEnd = doctor.availableTimeEnd || '17:00';
-      this.schedules = {};
-      doctor.availableDays.forEach(day => {
-        this.schedules[day] = {
-          enabled: true,
-          slots: [{ start: oldStart, end: oldEnd }]
-        };
-      });
-      // Initialize disabled days too
-      for (let day = 1; day <= 7; day++) {
-        if (!this.schedules[day]) {
-          this.schedules[day] = {
-            enabled: false,
-            slots: [{ start: '08:00', end: '17:00' }]
-          };
-        }
-      }
-    } else if (doctor.schedules) {
-      this.schedules = JSON.parse(JSON.stringify(doctor.schedules));
-      // Ensure all days exist
-      for (let day = 1; day <= 7; day++) {
-        if (!this.schedules[day]) {
-          this.schedules[day] = {
-            enabled: false,
-            slots: [{ start: '08:00', end: '17:00' }]
-          };
-        }
-      }
-    } else {
-      // Initialize new
-      this.schedules = {};
-      for (let day = 1; day <= 7; day++) {
-        this.schedules[day] = {
-          enabled: [2,3,4,5,6].includes(day),
-          slots: [{ start: '08:00', end: '17:00' }]
-        };
-      }
-    }
+    this.schedules = {};
+    this.days.forEach(day => {
+      const enabled = doctor.availableDays ? doctor.availableDays.includes(day.id) : [2,3,4,5,6].includes(day.id);
+      const start = doctor.availableTimeStart || '08:00';
+      const end = doctor.availableTimeEnd || '17:00';
+      this.schedules[day.id] = {
+        enabled: enabled,
+        slots: [{ start: start, end: end }]
+      };
+    });
+    console.log('Schedules loaded:', this.schedules);
   },
 
   render: function() {
+    console.log('DoctorSchedules.render() called');
     const container = document.getElementById('schedule-week');
+    if (!container) {
+      console.error('Container #schedule-week not found!');
+      return;
+    }
     container.innerHTML = this.days.map(day => {
       const sched = this.schedules[day.id];
       return `
@@ -83,6 +60,7 @@ const DoctorSchedules = {
         </div>
       `;
     }).join('');
+    console.log('Rendered schedule');
   },
 
   renderSlot: function(dayId, slotIdx, slot) {
@@ -157,8 +135,8 @@ const DoctorSchedules = {
     const doctor = Auth.getCurrentDoctor();
     if (!doctor) return;
 
-    const enabledDays = Object.keys(this.schedules)
-      .map(Number)
+    const enabledDays = this.days
+      .map(d => d.id)
       .filter(d => this.schedules[d].enabled);
 
     if (enabledDays.length === 0) {
@@ -166,7 +144,6 @@ const DoctorSchedules = {
       return;
     }
 
-    // Get first enabled day for backward compatibility
     const firstDay = enabledDays[0];
     const firstSlot = this.schedules[firstDay].slots[0];
 
