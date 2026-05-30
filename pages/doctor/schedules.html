@@ -9,6 +9,62 @@
   <link rel="stylesheet" href="../../css/components.css">
   <link rel="stylesheet" href="../../css/layout.css">
   <link rel="stylesheet" href="../../css/responsive.css">
+  <style>
+    .schedule-week {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .day-card {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .day-card.selected {
+      border-color: var(--color-primary);
+    }
+    .day-header {
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      font-weight: 600;
+      text-align: center;
+    }
+    .day-card.selected .day-header {
+      background: var(--color-primary);
+      color: white;
+    }
+    .day-body {
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .time-slot {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .time-slot input[type="time"] {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+    .btn-small {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+    }
+    .btn-danger {
+      background: var(--color-danger);
+      color: white;
+    }
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+  </style>
 </head>
 <body>
   <div class="topbar">
@@ -41,50 +97,19 @@
     <main class="dashboard-content">
       <div class="dashboard-header">
         <h1>Lịch làm việc</h1>
-        <p>Cập nhật thời gian khám</p>
+        <p>Cập nhật thời gian khám từng ngày</p>
       </div>
 
-      <div class="card" style="max-width:600px;">
-        <form id="schedule-form">
-          <div class="form-group">
-            <label class="form-label">Ngày làm việc</label>
-            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
-                <input type="checkbox" id="day-2" value="2"> Thứ 2
-              </label>
-              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
-                <input type="checkbox" id="day-3" value="3"> Thứ 3
-              </label>
-              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
-                <input type="checkbox" id="day-4" value="4"> Thứ 4
-              </label>
-              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
-                <input type="checkbox" id="day-5" value="5"> Thứ 5
-              </label>
-              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
-                <input type="checkbox" id="day-6" value="6"> Thứ 6
-              </label>
-              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
-                <input type="checkbox" id="day-7" value="7"> Thứ 7
-              </label>
-              <label style="display:flex; align-items:center; gap:0.25rem; cursor:pointer;">
-                <input type="checkbox" id="day-1" value="1"> Chủ nhật
-              </label>
-            </div>
+      <div class="card" style="margin-bottom:1rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:1rem;">
+          <h3 style="margin:0;">Lịch tuần</h3>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-secondary" onclick="DoctorSchedules.copyToAll()">📋 Sao chép thời gian</button>
+            <button class="btn btn-primary" onclick="DoctorSchedules.saveSchedules()">💾 Lưu thay đổi</button>
           </div>
-
-          <div class="form-group">
-            <label class="form-label">Giờ bắt đầu</label>
-            <input type="time" id="startTime" class="form-input" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Giờ kết thúc</label>
-            <input type="time" id="endTime" class="form-input" required>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block">Lưu thay đổi</button>
-        </form>
+        </div>
+        
+        <div class="schedule-week" id="schedule-week"></div>
       </div>
     </main>
   </div>
@@ -117,7 +142,7 @@
       document.getElementById('topbar-name').textContent = doctor.fullName;
       document.getElementById('topbar-avatar').src = doctor.avatar;
 
-      DoctorSchedules.render();
+      DoctorSchedules.init();
 
       document.getElementById('logout-btn').addEventListener('click', function() {
         Auth.logout();
