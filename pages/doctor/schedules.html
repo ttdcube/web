@@ -1,33 +1,28 @@
 
-&lt;!DOCTYPE html&gt;
-&lt;html lang="vi"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-  &lt;title&gt;Lịch làm việc - ClinicFlow&lt;/title&gt;
-  &lt;link rel="stylesheet" href="../../css/base.css"&gt;
-  &lt;link rel="stylesheet" href="../../css/components.css"&gt;
-  &lt;link rel="stylesheet" href="../../css/layout.css"&gt;
-  &lt;link rel="stylesheet" href="../../css/responsive.css"&gt;
-  &lt;style&gt;
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch làm việc - ClinicFlow</title>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <style>
     .schedule-container {
       display: grid;
       grid-template-columns: 80px repeat(7, 1fr);
-      gap: 1rem;
+      gap: 0.75rem;
       margin-top: 1rem;
     }
     .schedule-header {
       background: var(--color-primary);
       color: white;
-      padding: 1rem;
+      padding: 0.75rem;
       text-align: center;
       border-radius: var(--radius-md);
       font-weight: 600;
-    }
-    .time-column {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
     }
     .time-label {
       height: 50px;
@@ -37,11 +32,6 @@
       font-size: 0.875rem;
       color: var(--text-muted);
       font-weight: 500;
-    }
-    .day-column {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
     }
     .day-slot {
       height: 50px;
@@ -63,18 +53,9 @@
       color: white;
       border-color: var(--color-primary);
     }
-    .schedule-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-      justify-content: flex-end;
-    }
-    .copy-btn {
-      background: var(--color-secondary);
-    }
     @media (max-width: 1024px) {
       .schedule-container {
-        grid-template-columns: 60px repeat(7, minmax(100px, 1fr));
+        grid-template-columns: 60px repeat(7, minmax(80px, 1fr));
         gap: 0.5rem;
       }
       .time-label, .day-slot {
@@ -82,61 +63,61 @@
         font-size: 0.75rem;
       }
     }
-  &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;div class="topbar"&gt;
-    &lt;div class="topbar-left"&gt;
-      &lt;button class="mobile-menu-btn" onclick="UI.openSidebar()"&gt;☰&lt;/button&gt;
-      &lt;a href="../../index.html" style="font-size:1.25rem; font-weight:700; color:var(--color-primary)"&gt;🏥 ClinicFlow&lt;/a&gt;
-    &lt;/div&gt;
-    &lt;div class="topbar-right"&gt;
-      &lt;button id="theme-toggle" class="btn btn-secondary btn-sm"&gt;🌙&lt;/button&gt;
-      &lt;div class="topbar-user"&gt;
-        &lt;img id="topbar-avatar" src="" alt="" class="topbar-avatar"&gt;
-        &lt;span id="topbar-name" class="topbar-name"&gt;&lt;/span&gt;
-      &lt;/div&gt;
-      &lt;button id="logout-btn" class="btn btn-secondary btn-sm"&gt;Đăng xuất&lt;/button&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="UI.openSidebar()">☰</button>
+      <a href="../../index.html" style="font-size:1.25rem; font-weight:700; color:var(--color-primary)">🏥 ClinicFlow</a>
+    </div>
+    <div class="topbar-right">
+      <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
+      <div class="topbar-user">
+        <img id="topbar-avatar" src="" alt="" class="topbar-avatar">
+        <span id="topbar-name" class="topbar-name"></span>
+      </div>
+      <button id="logout-btn" class="btn btn-secondary btn-sm">Đăng xuất</button>
+    </div>
+  </div>
 
-  &lt;div class="dashboard-layout"&gt;
-    &lt;div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"&gt;&lt;/div&gt;
-    &lt;aside class="sidebar" id="sidebar"&gt;
-      &lt;div class="sidebar-menu"&gt;
-        &lt;a href="dashboard.html" class="sidebar-link"&gt;📊 Tổng quan&lt;/a&gt;
-        &lt;a href="appointments.html" class="sidebar-link"&gt;📅 Lịch khám&lt;/a&gt;
-        &lt;a href="patients.html" class="sidebar-link"&gt;👥 Bệnh nhân&lt;/a&gt;
-        &lt;a href="profile.html" class="sidebar-link"&gt;👤 Hồ sơ&lt;/a&gt;
-        &lt;a href="schedules.html" class="sidebar-link active"&gt;🕒 Lịch làm việc&lt;/a&gt;
-      &lt;/div&gt;
-    &lt;/aside&gt;
+  <div class="dashboard-layout">
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-link">📊 Tổng quan</a>
+        <a href="appointments.html" class="sidebar-link">📅 Lịch khám</a>
+        <a href="patients.html" class="sidebar-link">👥 Bệnh nhân</a>
+        <a href="profile.html" class="sidebar-link">👤 Hồ sơ</a>
+        <a href="schedules.html" class="sidebar-link active">🕒 Lịch làm việc</a>
+      </div>
+    </aside>
 
-    &lt;main class="dashboard-content" style="max-width: 1400px; width: 100%;"&gt;
-      &lt;div class="dashboard-header" style="flex-wrap: wrap; gap: 1rem;"&gt;
-        &lt;div&gt;
-          &lt;h1&gt;Lịch làm việc&lt;/h1&gt;
-          &lt;p&gt;Chọn các khung giờ làm việc của bạn&lt;/p&gt;
-        &lt;/div&gt;
-        &lt;div style="display: flex; gap: 0.5rem;"&gt;
-          &lt;button class="btn btn-secondary" onclick="toggleAllDays(true)"&gt;✅ Chọn tất cả&lt;/button&gt;
-          &lt;button class="btn btn-secondary" onclick="toggleAllDays(false)"&gt;❌ Bỏ chọn tất cả&lt;/button&gt;
-          &lt;button class="btn btn-primary" onclick="saveSchedule()"&gt;💾 Lưu lịch&lt;/button&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
+    <main class="dashboard-content" style="max-width: 1400px; width: 100%;">
+      <div class="dashboard-header" style="flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1>Lịch làm việc</h1>
+          <p>Chọn các khung giờ làm việc của bạn</p>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary" onclick="toggleAllDays(true)">✅ Chọn tất cả</button>
+          <button class="btn btn-secondary" onclick="toggleAllDays(false)">❌ Bỏ chọn tất cả</button>
+          <button class="btn btn-primary" onclick="saveSchedule()">💾 Lưu lịch</button>
+        </div>
+      </div>
 
-      &lt;div class="card" style="padding: 1.5rem;"&gt;
-        &lt;div class="schedule-container" id="scheduleGrid"&gt;&lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/main&gt;
-  &lt;/div&gt;
+      <div class="card" style="padding: 1.5rem;">
+        <div class="schedule-container" id="scheduleGrid"></div>
+      </div>
+    </main>
+  </div>
 
-  &lt;script src="../../js/utils.js"&gt;&lt;/script&gt;
-  &lt;script src="../../js/core/ui.js"&gt;&lt;/script&gt;
-  &lt;script src="../../js/core/storage.js"&gt;&lt;/script&gt;
-  &lt;script src="../../js/core/auth.js"&gt;&lt;/script&gt;
-  &lt;script src="../../data/seed.js"&gt;&lt;/script&gt;
-  &lt;script&gt;
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/core/ui.js"></script>
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/auth.js"></script>
+  <script src="../../data/seed.js"></script>
+  <script>
     const days = [
       { id: 2, name: 'Thứ 2' },
       { id: 3, name: 'Thứ 3' },
@@ -180,7 +161,6 @@
       document.getElementById('topbar-name').textContent = doctor.fullName;
       document.getElementById('topbar-avatar').src = doctor.avatar;
 
-      // Initialize schedule data
       initSchedule(doctor);
       renderSchedule();
 
@@ -190,7 +170,6 @@
     });
 
     function initSchedule(doctor) {
-      // Use doctor.schedules if available, otherwise use availableDays
       if (doctor.schedules) {
         scheduleData = JSON.parse(JSON.stringify(doctor.schedules));
       } else {
@@ -199,10 +178,10 @@
         const start = doctor.availableTimeStart || '08:00';
         const end = doctor.availableTimeEnd || '17:00';
         
-        days.forEach(day =&gt; {
+        days.forEach(day => {
           scheduleData[day.id] = {
             enabled: activeDays.includes(day.id),
-            slots: timeSlots.filter(t =&gt; t.start &gt;= start &amp;&amp; t.end &lt;= end).map(t =&gt; t.start + '-' + t.end)
+            slots: timeSlots.filter(t => t.start >= start && t.end <= end).map(t => t.start + '-' + t.end)
           };
         });
       }
@@ -210,28 +189,25 @@
 
     function renderSchedule() {
       const container = document.getElementById('scheduleGrid');
+      let html = '';
       
-      // Render headers
-      let html = '&lt;div class="schedule-header" style="background: transparent;"&gt;&lt;/div&gt;';
-      days.forEach(day =&gt; {
-        html += `&lt;div class="schedule-header"&gt;${day.name}&lt;/div&gt;`;
+      // Add headers
+      html += '<div class="schedule-header" style="background: transparent;"></div>';
+      days.forEach(day => {
+        html += `<div class="schedule-header">${day.name}</div>`;
       });
       
-      // Render time slots
-      timeSlots.forEach(time =&gt; {
-        html += `&lt;div class="time-column"&gt;&lt;div class="time-label"&gt;${time.start}&lt;/div&gt;&lt;/div&gt;`;
+      // Add time slots
+      timeSlots.forEach(time => {
         const timeKey = time.start + '-' + time.end;
-        days.forEach(day =&gt; {
+        html += `<div class="time-label">${time.start}</div>`;
+        days.forEach(day => {
           const isActive = scheduleData[day.id]?.slots?.includes(timeKey);
           html += `
-            &lt;div class="day-column"&gt;
-              &lt;div class="day-slot ${isActive ? 'active' : ''}" 
-                   data-day="${day.id}" 
-                   data-time="${timeKey}"
-                   onclick="toggleSlot(${day.id}, '${timeKey}')"&gt;
-                ✓
-              &lt;/div&gt;
-            &lt;/div&gt;
+            <div class="day-slot ${isActive ? 'active' : ''}" 
+                 onclick="toggleSlot(${day.id}, '${timeKey}')">
+              ✓
+            </div>
           `;
         });
       });
@@ -245,20 +221,19 @@
       }
       const slots = scheduleData[dayId].slots;
       const index = slots.indexOf(timeKey);
-      if (index &gt; -1) {
+      if (index > -1) {
         slots.splice(index, 1);
       } else {
         slots.push(timeKey);
       }
-      // Update enabled status based on slots
-      scheduleData[dayId].enabled = slots.length &gt; 0;
+      scheduleData[dayId].enabled = slots.length > 0;
       renderSchedule();
     }
 
     function toggleAllDays(selectAll) {
-      days.forEach(day =&gt; {
+      days.forEach(day => {
         if (selectAll) {
-          scheduleData[day.id] = { enabled: true, slots: timeSlots.map(t =&gt; t.start + '-' + t.end) };
+          scheduleData[day.id] = { enabled: true, slots: timeSlots.map(t => t.start + '-' + t.end) };
         } else {
           scheduleData[day.id] = { enabled: false, slots: [] };
         }
@@ -272,18 +247,18 @@
       
       const enabledDays = Object.keys(scheduleData)
         .map(Number)
-        .filter(d =&gt; scheduleData[d].enabled);
+        .filter(d => scheduleData[d].enabled);
       
       const allSlots = [];
-      Object.values(scheduleData).forEach(d =&gt; {
-        d.slots.forEach(s =&gt; {
+      Object.values(scheduleData).forEach(d => {
+        d.slots.forEach(s => {
           const [start] = s.split('-');
           if (!allSlots.includes(start)) allSlots.push(start);
         });
       });
       allSlots.sort();
       const startTime = allSlots[0] || '08:00';
-      const endTime = allSlots.length &gt; 0 ? (parseInt(allSlots[allSlots.length -1].split(':')[0]) + 1) + ':00' : '17:00';
+      const endTime = allSlots.length > 0 ? (parseInt(allSlots[allSlots.length -1].split(':')[0]) + 1) + ':00' : '17:00';
       
       Storage.updateDoctor(doctor.id, {
         availableDays: enabledDays,
@@ -294,6 +269,6 @@
       
       UI.toast('✅ Lưu lịch làm việc thành công!', 'success');
     }
-  &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+  </script>
+</body>
+</html>
