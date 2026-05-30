@@ -2,12 +2,14 @@
 const Auth = {
   async register(data) {
     try {
+      console.log('[Auth] Registering with:', data);
       const result = await api.register({
         name: data.fullName || data.name,
         email: data.email,
         phone: data.phone,
         password: data.password
       });
+      console.log('[Auth] Register result:', result);
       
       api.setToken(result.token);
       localStorage.setItem('currentUser', JSON.stringify(result.user));
@@ -17,32 +19,38 @@ const Auth = {
       
       return { success: true, user: result.user };
     } catch (error) {
-      UI.toast(error.message, 'error');
-      return { success: false, message: error.message };
+      console.error('[Auth] Register error:', error);
+      UI.toast(error.message || 'Lỗi đăng ký!', 'error');
+      return { success: false, message: error.message || 'Lỗi đăng ký!' };
     }
   },
 
   async login(email, password) {
     try {
+      console.log('[Auth] Logging in with:', email);
       const result = await api.login({ email, password });
+      console.log('[Auth] Login result:', result);
       
       api.setToken(result.token);
       localStorage.setItem('currentUser', JSON.stringify(result.user));
       
       UI.toast('Đăng nhập thành công!', 'success');
       
+      let targetPage = 'patient/index.html';
       if (result.user.role === 'admin') {
-        setTimeout(() =&gt; window.location.href = 'admin/index.html', 500);
+        targetPage = 'admin/index.html';
       } else if (result.user.role === 'doctor') {
-        setTimeout(() =&gt; window.location.href = 'doctor/dashboard.html', 500);
-      } else {
-        setTimeout(() =&gt; window.location.href = 'patient/index.html', 500);
+        targetPage = 'doctor/dashboard.html';
       }
+      
+      console.log('[Auth] Redirecting to:', targetPage);
+      setTimeout(() =&gt; window.location.href = targetPage, 500);
       
       return { success: true, user: result.user };
     } catch (error) {
-      UI.toast(error.message, 'error');
-      return { success: false, message: error.message };
+      console.error('[Auth] Login error:', error);
+      UI.toast(error.message || 'Lỗi đăng nhập!', 'error');
+      return { success: false, message: error.message || 'Lỗi đăng nhập!' };
     }
   },
 
@@ -78,11 +86,7 @@ const Auth = {
     if (!this.isAuthenticated()) {
       UI.toast('Vui lòng đăng nhập để tiếp tục', 'warning');
       const path = window.location.pathname;
-      if (path.includes('/pages/doctor/') || path.includes('/pages/admin/') || path.includes('/pages/patient/')) {
-        window.location.href = '../login.html';
-      } else {
-        window.location.href = 'login.html';
-      }
+      window.location.href = '../login.html';
       return false;
     }
     return true;
