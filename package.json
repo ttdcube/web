@@ -1,0 +1,20 @@
+
+{
+  "name": "clinicflow",
+  "version": "1.0.0",
+  "description": "Hệ thống đặt lịch khám bệnh - ClinicFlow",
+  "main": "backend/server.js",
+  "scripts": {
+    "install:all": "cd backend &amp;&amp; npm install",
+    "backend": "cd backend &amp;&amp; node server.js",
+    "frontend": "cd frontend &amp;&amp; python -m http.server 8000",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "dev": "npm run install:all &amp;&amp; npm start"
+  },
+  "keywords": ["clinic", "appointment", "healthcare"],
+  "author": "ClinicFlow Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}

@@ -1,144 +1,93 @@
 
-# 🏥 ClinicFlow - Hệ thống Đặt Lịch Khám Bệnh Trực Tuyến
+# 🏥 ClinicFlow - Hệ thống đặt lịch khám bệnh
 
-## Giới thiệu
-ClinicFlow là một hệ thống quản lý đặt lịch khám bệnh trực tuyến hiện đại, được xây dựng với HTML, CSS, JavaScript thuần và LocalStorage để lưu trữ dữ liệu. Hệ thống cung cấp trải nghiệm người dùng hoàn chỉnh cho bệnh nhân, bác sĩ và quản trị viên.
+Đồ án quản lý lịch khám bệnh với đầy đủ chức năng cho bệnh nhân, bác sĩ và quản trị viên!
 
-## Tính năng chính
+## 📋 Tính năng chính
 
-### 👤 Bệnh nhân
-- Trang chủ giới thiệu dịch vụ chuyên nghiệp
-- Đăng ký / Đăng nhập tài khoản
-- Đặt lịch khám với bác sĩ
-- Xem và quản lý lịch hẹn
-- Chỉnh sửa hồ sơ cá nhân
-- Tìm kiếm và lọc bác sĩ
-- Chế độ tối (Dark Mode)
-- Thông báo Toast
+### 👨‍⚕️ Vai trò
+- **Quản trị viên**: Quản lý bác sĩ, xem thống kê, quản lý lịch hẹn
+- **Bác sĩ**: Xem lịch khám, quản lý bệnh nhân, cập nhật lịch làm việc
+- **Bệnh nhân**: Đặt lịch khám, xem lịch sử, cập nhật hồ sơ
 
-### 👨‍⚕️ Bác sĩ
-- Dashboard tổng quan thống kê
-- Quản lý lịch khám (xác nhận, hoàn thành, hủy)
-- Danh sách bệnh nhân đã khám
-- Chỉnh sửa hồ sơ bác sĩ
-- Cấu hình lịch làm việc
-- Lọc và tìm kiếm cuộc hẹn
-- Chế độ tối
+## 🛠️ Công nghệ sử dụng
 
-### 🛡️ Quản trị viên
-- Dashboard thống kê hệ thống
-- Quản lý bác sĩ (thêm, sửa, xóa)
-- Quản lý bệnh nhân (xem, sửa, xóa)
-- Quản lý lịch hẹn (thay đổi trạng thái)
-- Biểu đồ thống kê đơn giản
-- Lọc và tìm kiếm nâng cao
-- Chế độ tối
+### Frontend
+- HTML5, CSS3, JavaScript (vanilla JS)
+- Responsive Design, hỗ trợ Dark Mode
+- Giao diện hiện đại, dễ dùng
 
-## Công nghệ sử dụng
-- **HTML5** - Cấu trúc trang web
-- **CSS3** - Giao diện và responsive
-- **JavaScript (ES6+)** - Xử lý logic và tương tác
-- **LocalStorage** - Lưu trữ dữ liệu trên trình duyệt
-- **Font Awesome (emoji)** - Icons đơn giản
+### Backend
+- Node.js + Express
+- Cơ sở dữ liệu SQLite (better-sqlite3)
+- Xác thực JWT
+- Mã hóa mật khẩu bcrypt
 
-## Cách cài đặt và chạy
+## 🚀 Cách chạy dự án
 
 ### Yêu cầu
-- Trình duyệt hiện đại (Chrome, Firefox, Edge, Safari)
-- Python 3.x (để chạy server đơn giản)
+- Node.js (v16+)
+- Python 3.x (cho frontend dev server)
 
-### Chạy hệ thống
-1. **Clone repo về máy** (nếu chưa):
-   ```bash
-   git clone https://github.com/ttdcube/web.git
-   cd web
-   ```
-2. **Chạy server** (2 cách):
-   - Cách 1 (dễ nhất): Nhấp đôi file `start.bat`
-   - Cách 2 (sử dụng terminal):
-     ```bash
-     python -m http.server 8000
-     ```
-3. **Mở trình duyệt** và truy cập: http://localhost:8000
-
-## Tài khoản thử nghiệm
-
-| Vai trò    | Email                     | Mật khẩu   | Mô tả                               |
-|------------|---------------------------|------------|-------------------------------------|
-| Admin      | `admin@clinicflow.com`    | `admin123` | Quản lý toàn bộ hệ thống           |
-| Bác sĩ     | `doctor@clinicflow.com`   | `123456`   | Quản lý lịch khám và hồ sơ bệnh nhân |
-| Bệnh nhân  | `patient@example.com`     | `123456`   | Đặt lịch khám và xem hồ sơ cá nhân |
-
-## Cấu trúc thư mục
-```
-web bac si/
-├── css/
-│   ├── base.css         # Biến CSS và reset
-│   ├── components.css   # Component như nút, form, modal
-│   ├── layout.css       # Layout chung, sidebar, navbar
-│   └── responsive.css   # Responsive design
-├── data/
-│   └── seed.js          # Dữ liệu mẫu ban đầu
-├── js/
-│   ├── utils.js         # Hàm tiện ích chung
-│   ├── core/
-│   │   ├── auth.js      # Xử lý đăng nhập/đăng ký
-│   │   ├── storage.js   # Quản lý LocalStorage
-│   │   └── ui.js        # Xử lý giao diện (toast, modal, theme)
-│   └── features/        # Chức năng chính
-│       ├── doctors.js
-│       ├── appointments.js
-│       ├── dashboard.js
-│       ├── doctor-dashboard.js
-│       ├── doctor-appointments.js
-│       ├── doctor-patients.js
-│       ├── doctor-profile.js
-│       ├── doctor-schedules.js
-│       ├── doctors-admin.js
-│       ├── patients-admin.js
-│       ├── appointments-admin.js
-│       └── charts.js
-├── pages/
-│   ├── index.html (Landing page)
-│   ├── login.html
-│   ├── register.html
-│   ├── doctors.html
-│   ├── doctor-detail.html
-│   ├── patient/         # Dashboard bệnh nhân
-│   ├── doctor/          # Dashboard bác sĩ
-│   └── admin/           # Dashboard admin
-├── v1-backup/           # Phiên bản cũ (backup)
-├── index.html
-├── start.bat
-└── README.md
+### Cách 1: Dùng script (dễ nhất)
+Nhấn đúp vào file `start.bat` (Windows) hoặc chạy:
+```powershell
+.\start.ps1
 ```
 
-## Hướng dẫn sử dụng cơ bản
+### Cách 2: Dùng npm
+```bash
+# Cài đặt toàn bộ dependencies
+npm run install:all
 
-### Đặt lịch khám (Bệnh nhân)
-1. Đăng nhập với tài khoản bệnh nhân
-2. Vào trang "Bác sĩ"
-3. Chọn bác sĩ mong muốn
-4. Chọn ngày và giờ khám
-5. Nhấn "Xác nhận đặt lịch"
+# Khởi động cả backend và frontend
+npm start
+```
 
-### Quản lý lịch khám (Bác sĩ)
-1. Đăng nhập với tài khoản bác sĩ
-2. Vào trang "Lịch khám"
-3. Thay đổi trạng thái cuộc hẹn (Xác nhận, Hoàn thành, Hủy)
+### Cách 3: Chạy riêng lẻ
+```bash
+# Backend (http://localhost:5000)
+cd backend
+npm install
+npm start
 
-### Quản lý hệ thống (Admin)
-1. Đăng nhập với tài khoản admin
-2. Truy cập các trang quản lý (Bác sĩ, Bệnh nhân, Lịch hẹn)
-3. Thực hiện các thao tác thêm, sửa, xóa
+# Frontend (http://localhost:8000)
+cd frontend
+python -m http.server 8000
+```
 
-## Lưu ý quan trọng
-- Dữ liệu được lưu trong LocalStorage, vì vậy **xóa dữ liệu trình duyệt sẽ mất toàn bộ thông tin**
-- Hệ thống không dùng backend, không dùng cơ sở dữ liệu thật
-- Đây là phiên bản demo, phù hợp cho đồ án hoặc mục đích học tập
+## 👤 Tài khoản thử nghiệm
 
-## Liên hệ
-Nếu có thắc mắc, vui lòng tạo issue trên repo GitHub!
+| Vai trò | Email | Mật khẩu |
+|---------|-------|----------|
+| Quản trị viên | admin@clinicflow.com | admin123 |
+| Bác sĩ (mặc định) | doctor@clinicflow.com | (tạo trong DB) |
+| Bệnh nhân | Đăng ký bằng form đăng ký | |
 
----
-**ClinicFlow - Đặt lịch khám dễ dàng, tiết kiệm thời gian!** 💙
+## 📁 Cấu trúc thư mục
+
+```
+clinicflow/
+├── backend/
+│   ├── server.js          # Express API server
+│   ├── database.js        # Cơ sở dữ liệu SQLite
+│   └── package.json
+├── frontend/
+│   ├── index.html         # Trang chủ
+│   ├── css/               # Stylesheets
+│   ├── js/                # JavaScript files
+│   │   ├── core/          # Auth, API, Storage, UI
+│   │   └── features/      # Logic từng trang
+│   └── pages/             # Tất cả các trang
+├── start.bat              # Khởi động hệ thống (Windows)
+├── start.ps1              # Khởi động hệ thống (PowerShell)
+└── package.json           # Script quản lý dự án
+```
+
+## 📝 Ghi chú
+- Dữ liệu được lưu trong `backend/clinicflow.db`
+- Đổi cổng trong `backend/server.js` nếu cần
+- File database sẽ được tạo tự động khi chạy lần đầu
+
+## 📄 License
+MIT
