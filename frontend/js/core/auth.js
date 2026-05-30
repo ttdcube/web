@@ -32,11 +32,11 @@ const Auth = {
       UI.toast('Đăng nhập thành công!', 'success');
       
       if (result.user.role === 'admin') {
-        setTimeout(() =&gt; window.location.href = 'pages/admin/index.html', 500);
+        setTimeout(() =&gt; window.location.href = 'admin/index.html', 500);
       } else if (result.user.role === 'doctor') {
-        setTimeout(() =&gt; window.location.href = 'pages/doctor/dashboard.html', 500);
+        setTimeout(() =&gt; window.location.href = 'doctor/dashboard.html', 500);
       } else {
-        setTimeout(() =&gt; window.location.href = 'pages/patient/index.html', 500);
+        setTimeout(() =&gt; window.location.href = 'patient/index.html', 500);
       }
       
       return { success: true, user: result.user };
@@ -50,7 +50,7 @@ const Auth = {
     api.removeToken();
     localStorage.removeItem('currentUser');
     UI.toast('Đăng xuất thành công!', 'info');
-    setTimeout(() =&gt; window.location.href = 'index.html', 300);
+    setTimeout(() =&gt; window.location.href = '../index.html', 300);
   },
 
   getCurrentUser() {
@@ -78,7 +78,11 @@ const Auth = {
     if (!this.isAuthenticated()) {
       UI.toast('Vui lòng đăng nhập để tiếp tục', 'warning');
       const path = window.location.pathname;
-      window.location.href = path.includes('pages/') ? '../login.html' : 'pages/login.html';
+      if (path.includes('/pages/doctor/') || path.includes('/pages/admin/') || path.includes('/pages/patient/')) {
+        window.location.href = '../login.html';
+      } else {
+        window.location.href = 'login.html';
+      }
       return false;
     }
     return true;
@@ -88,7 +92,7 @@ const Auth = {
     const user = this.getCurrentUser();
     if (!user || user.role !== 'admin') {
       UI.toast('Bạn không có quyền truy cập', 'error');
-      window.location.href = '../../index.html';
+      window.location.href = '../index.html';
       return false;
     }
     return true;
