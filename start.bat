@@ -11,7 +11,7 @@ echo.
 
 REM Kiểm tra Node.js
 echo [1/3] Kiem tra Node.js...
-node --version &gt;nul 2&gt;&amp;1
+node --version 2&gt;nul
 if %errorlevel% neq 0 (
     echo [LOI] Node.js chua duoc cai dat!
     echo Vui long tai Node.js tu https://nodejs.org/
@@ -34,7 +34,7 @@ echo =============================================
 echo.
 
 REM Khởi động backend trong cửa sổ mới
-start "ClinicFlow Backend" cmd /k "cd backend &amp;&amp; node server.js"
+start "ClinicFlow Backend" cmd /k "cd /d "%~dp0backend" &amp;&amp; node server.js"
 
 echo Chờ backend khoi dong (3 giay)...
 timeout /t 3 /nobreak &gt;nul
@@ -42,5 +42,6 @@ timeout /t 3 /nobreak &gt;nul
 REM Khởi động frontend
 echo Khoi dong frontend (http://localhost:8000)...
 start "" http://localhost:8000
-cd frontend
+cd /d "%~dp0frontend"
 python -m http.server 8000
+pause
