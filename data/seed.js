@@ -65,6 +65,18 @@ const SeedData = {
     ];
     const doctors = [];
     for (let i = 0; i < 8; i++) {
+      const availableDays = [2,3,4,5,6].slice(0, 3 + (i % 3));
+      const start = '08:00';
+      const end = ['17:00', '18:00', '16:30'][i % 3];
+      
+      const schedules = {};
+      [2,3,4,5,6,7,1].forEach(day => {
+        schedules[day] = {
+          enabled: availableDays.includes(day),
+          slots: [{ start: start, end: end }]
+        };
+      });
+      
       doctors.push({
         id: Utils.uuid(),
         userId: i === 0 ? testDoctorUserId : null,
@@ -74,9 +86,10 @@ const SeedData = {
         email: 'bacsi.' + doctorNames[i].toLowerCase().replace(/\s+/g, '.') + '@clinicflow.com',
         avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(doctorNames[i])}&background=${['3498db', '2ecc71', 'e74c3c', '9b59b6', 'f1c40f', '1abc9c', '34495e', 'e67e22'][i]}&color=fff&size=200`,
         bio: `Bác sĩ ${doctorNames[i]} có hơn ${10 + i} năm kinh nghiệm làm việc tại các bệnh viện lớn. Chuyên môn sâu về ${specialties[i % specialties.length]}.`,
-        availableDays: [1, 2, 3, 4, 5].slice(0, 3 + (i % 3)), // 3-5 ngày làm việc/tuần
-        availableTimeStart: '08:00',
-        availableTimeEnd: ['17:00', '18:00', '16:30'][i % 3],
+        availableDays: availableDays,
+        availableTimeStart: start,
+        availableTimeEnd: end,
+        schedules: schedules,
         price: [300000, 350000, 500000, 280000, 320000, 400000, 450000, 330000][i],
         rating: 4.0 + Math.random() * 1.0,
         totalReviews: Math.floor(20 + Math.random() * 100)

@@ -24,13 +24,17 @@ const DoctorSchedules = {
 
     this.schedules = {};
     this.days.forEach(day => {
-      const enabled = doctor.availableDays ? doctor.availableDays.includes(day.id) : [2,3,4,5,6].includes(day.id);
-      const start = doctor.availableTimeStart || '08:00';
-      const end = doctor.availableTimeEnd || '17:00';
-      this.schedules[day.id] = {
-        enabled: enabled,
-        slots: [{ start: start, end: end }]
-      };
+      if (doctor.schedules && doctor.schedules[day.id]) {
+        this.schedules[day.id] = JSON.parse(JSON.stringify(doctor.schedules[day.id]));
+      } else {
+        const enabled = doctor.availableDays ? doctor.availableDays.includes(day.id) : [2,3,4,5,6].includes(day.id);
+        const start = doctor.availableTimeStart || '08:00';
+        const end = doctor.availableTimeEnd || '17:00';
+        this.schedules[day.id] = {
+          enabled: enabled,
+          slots: [{ start: start, end: end }]
+        };
+      }
     });
     console.log('Schedules loaded:', this.schedules);
   },

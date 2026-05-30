@@ -17,7 +17,7 @@ const Storage = {
   },
 
   // Version để kiểm tra seed
-  SEED_VERSION: '2.1.0',
+  SEED_VERSION: '2.2.0',
 
   /**
    * Khởi tạo storage nếu chưa có
