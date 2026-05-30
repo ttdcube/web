@@ -1,73 +1,66 @@
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Đăng nhập - ClinicFlow</title>
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/layout.css">
-  <link rel="stylesheet" href="../css/responsive.css">
-</head>
-<body>
-  <nav class="navbar">
-    <div class="navbar-container">
-      <a href="../index.html" class="navbar-brand">🏥 ClinicFlow</a>
-      <div class="navbar-user">
-        <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙</button>
-      </div>
-    </div>
-  </nav>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="vi"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Đăng nhập - ClinicFlow&lt;/title&gt;
+  &lt;link rel="stylesheet" href="../css/base.css"&gt;
+  &lt;link rel="stylesheet" href="../css/components.css"&gt;
+  &lt;link rel="stylesheet" href="../css/layout.css"&gt;
+  &lt;link rel="stylesheet" href="../css/responsive.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav class="navbar"&gt;
+    &lt;div class="navbar-container"&gt;
+      &lt;a href="../index.html" class="navbar-brand"&gt;🏥 ClinicFlow&lt;/a&gt;
+      &lt;div class="navbar-user"&gt;
+        &lt;button id="theme-toggle" class="btn btn-secondary btn-sm"&gt;🌙&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
 
-  <div class="auth-container">
-    <div class="card auth-card">
-      <h1 class="auth-title">Đăng nhập</h1>
-      <p class="auth-subtitle">Chào mừng bạn quay trở lại!</p>
-      <form id="login-form">
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" id="login-email" class="form-input" placeholder="email@example.com" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mật khẩu</label>
-          <div style="position:relative">
-            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
-            <button type="button" class="password-toggle" onclick="UI.togglePassword('login-password', this)" style="position:absolute; right:1rem; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:1.125rem; color:var(--text-muted)">👁️</button>
-          </div>
-        </div>
-        <div style="text-align:right; margin-bottom:1rem">
-          <a href="#" onclick="UI.toast('Chức năng này sẽ được cập nhật sau!', 'info'); return false;" style="font-size:0.875rem; color:var(--color-primary)">Quên mật khẩu?</a>
-        </div>
-        <div id="login-error" class="error-message" style="display:none"></div>
-        <button type="submit" class="btn btn-primary btn-block" style="margin-top:0.5rem">Đăng nhập</button>
-      </form>
-      <p style="text-align:center; margin-top:1.5rem">
-        Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a>
-      </p>
-      <div style="margin-top: 2rem; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); border:1px solid var(--border-color);">
-        <h4 style="margin-bottom:1rem; color: var(--text-color);">✨ Tài khoản thử nhanh</h4>
-        <div style="display:grid; gap:0.75rem;">
-          <button type="button" class="btn btn-secondary" style="text-align:left;" onclick="fillForm('admin@clinicflow.com', 'admin123')">
-            🛡️ <strong>Admin</strong> - admin@clinicflow.com / admin123
-          </button>
-          <button type="button" class="btn btn-secondary" style="text-align:left;" onclick="fillForm('doctor@clinicflow.com', '123456')">
-            👨‍⚕️ <strong>Bác sĩ</strong> - doctor@clinicflow.com / 123456
-          </button>
-          <button type="button" class="btn btn-secondary" style="text-align:left;" onclick="fillForm('patient@example.com', '123456')">
-            👤 <strong>Bệnh nhân</strong> - patient@example.com / 123456
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  &lt;div class="auth-container"&gt;
+    &lt;div class="card auth-card"&gt;
+      &lt;h1 class="auth-title"&gt;Đăng nhập&lt;/h1&gt;
+      &lt;p class="auth-subtitle"&gt;Chào mừng bạn quay trở lại!&lt;/p&gt;
+      &lt;form id="login-form"&gt;
+        &lt;div class="form-group"&gt;
+          &lt;label class="form-label"&gt;Email&lt;/label&gt;
+          &lt;input type="email" id="login-email" class="form-input" placeholder="email@example.com" required&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+          &lt;label class="form-label"&gt;Mật khẩu&lt;/label&gt;
+          &lt;div style="position:relative"&gt;
+            &lt;input type="password" id="login-password" class="form-input" placeholder="••••••••" required&gt;
+            &lt;button type="button" class="password-toggle" onclick="UI.togglePassword('login-password', this)" style="position:absolute; right:1rem; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:1.125rem; color:var(--text-muted)"&gt;👁️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div style="text-align:right; margin-bottom:1rem"&gt;
+          &lt;a href="#" onclick="UI.toast('Chức năng này sẽ được cập nhật sau!', 'info'); return false;" style="font-size:0.875rem; color:var(--color-primary)"&gt;Quên mật khẩu?&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div id="login-error" class="error-message" style="display:none"&gt;&lt;/div&gt;
+        &lt;button type="submit" class="btn btn-primary btn-block" style="margin-top:0.5rem" id="login-btn"&gt;Đăng nhập&lt;/button&gt;
+      &lt;/form&gt;
+      &lt;p style="text-align:center; margin-top:1.5rem"&gt;
+        Chưa có tài khoản? &lt;a href="register.html"&gt;Đăng ký ngay&lt;/a&gt;
+      &lt;/p&gt;
+      &lt;div style="margin-top: 2rem; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); border:1px solid var(--border-color);"&gt;
+        &lt;h4 style="margin-bottom:1rem; color: var(--text-color);"&gt;✨ Tài khoản thử nhanh&lt;/h4&gt;
+        &lt;div style="display:grid; gap:0.75rem;"&gt;
+          &lt;button type="button" class="btn btn-secondary" style="text-align:left;" onclick="fillForm('admin@clinicflow.com', 'admin123')"&gt;
+            🛡️ &lt;strong&gt;Admin&lt;/strong&gt; - admin@clinicflow.com / admin123
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 
-  <script src="../js/utils.js"></script>
-  <script src="../js/core/ui.js"></script>
-  <script src="../js/core/storage.js"></script>
-  <script src="../js/core/auth.js"></script>
-  <script src="../data/seed.js"></script>
-  <script>
+  &lt;script src="../js/utils.js"&gt;&lt;/script&gt;
+  &lt;script src="../js/core/ui.js"&gt;&lt;/script&gt;
+  &lt;script src="../js/core/api.js"&gt;&lt;/script&gt;
+  &lt;script src="../js/core/auth.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
     function fillForm(email, password) {
       document.getElementById('login-email').value = email;
       document.getElementById('login-password').value = password;
@@ -75,18 +68,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      Storage.init();
-      
-      // Kiểm tra và chạy seed nếu cần
-      const storedVersion = localStorage.getItem(Storage.KEYS.SEED_VERSION);
-      if (storedVersion !== Storage.SEED_VERSION) {
-        SeedData.run();
-        localStorage.setItem(Storage.KEYS.SEED_VERSION, Storage.SEED_VERSION);
-      }
-      
       UI.initTheme();
 
-      // If already logged in
       if (Auth.isAuthenticated()) {
         const user = Auth.getCurrentUser();
         if (user.role === 'admin') {
@@ -99,20 +82,26 @@
         return;
       }
 
-      // Login form
-      document.getElementById('login-form').addEventListener('submit', function(e) {
+      document.getElementById('login-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
         const error = document.getElementById('login-error');
+        const btn = document.getElementById('login-btn');
 
-        const result = Auth.login(email, password);
-        if (!result.success && result.message) {
+        btn.disabled = true;
+        btn.textContent = 'Đang đăng nhập...';
+
+        const result = await Auth.login(email, password);
+        if (!result.success) {
           error.textContent = result.message;
           error.style.display = 'block';
         }
+
+        btn.disabled = false;
+        btn.textContent = 'Đăng nhập';
       });
     });
-  </script>
-</body>
-</html>
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
