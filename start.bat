@@ -5,21 +5,21 @@ color 0B
 
 echo.
 echo =============================================
-echo  🏥 ClinicFlow - Hệ thống đặt lịch khám
+echo  ClinicFlow - He thong dat lich kham
 echo =============================================
 echo.
 
-REM Kiểm tra Node.js
 echo [1/3] Kiem tra Node.js...
-node --version 2&gt;nul
+node --version
 if %errorlevel% neq 0 (
+    echo.
     echo [LOI] Node.js chua duoc cai dat!
     echo Vui long tai Node.js tu https://nodejs.org/
+    echo.
     pause
     exit /b
 )
 
-REM Cài dependencies backend nếu chưa có
 if not exist backend\node_modules (
     echo [2/3] Cai dat dependencies backend...
     cd backend
@@ -29,19 +29,17 @@ if not exist backend\node_modules (
 
 echo.
 echo =============================================
-echo  ✨ DANG KHOI DONG HỆ THỐNG...
+echo  DANG KHOI DONG HE THONG...
 echo =============================================
 echo.
 
-REM Khởi động backend trong cửa sổ mới
-start "ClinicFlow Backend" cmd /k "cd /d "%~dp0backend" &amp;&amp; node server.js"
+start "ClinicFlow Backend" cmd /k "cd backend &amp;&amp; node server.js"
 
-echo Chờ backend khoi dong (3 giay)...
+echo Cho backend khoi dong (3 giay)...
 timeout /t 3 /nobreak &gt;nul
 
-REM Khởi động frontend
 echo Khoi dong frontend (http://localhost:8000)...
 start "" http://localhost:8000
-cd /d "%~dp0frontend"
+cd frontend
 python -m http.server 8000
 pause
