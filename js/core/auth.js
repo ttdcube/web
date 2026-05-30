@@ -21,7 +21,8 @@ const Auth = {
     if (!Utils.validatePassword(data.password)) {
       return { success: false, message: 'Mật khẩu phải có ít nhất 6 ký tự' };
     }
-    if (!Utils.validateRequired(data.fullName)) {
+    const fullName = data.fullName || data.name;
+    if (!Utils.validateRequired(fullName)) {
       return { success: false, message: 'Vui lòng nhập họ tên' };
     }
 
@@ -49,9 +50,9 @@ const Auth = {
     const patient = {
       id: Utils.uuid(),
       userId: userId,
-      fullName: data.fullName,
+      fullName: fullName,
       phone: data.phone,
-      avatar: this.getDefaultAvatar(data.fullName),
+      avatar: this.getDefaultAvatar(fullName),
       birthDate: '',
       gender: 'other',
       bloodType: 'unknown',
@@ -84,13 +85,12 @@ const Auth = {
 
     // Chuyển hướng
     if (user.role === 'admin') {
-      setTimeout(() => window.location.href = 'pages/admin/index.html', 500);
+      setTimeout(() => window.location.href = 'admin/index.html', 500);
     } else if (user.role === 'doctor') {
-      setTimeout(() => window.location.href = 'pages/doctor/dashboard.html', 500);
+      setTimeout(() => window.location.href = 'doctor/dashboard.html', 500);
     } else {
-      setTimeout(() => window.location.href = 'pages/patient/index.html', 500);
+      setTimeout(() => window.location.href = 'patient/index.html', 500);
     }
-
     return { success: true, user };
   },
 

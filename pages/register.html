@@ -61,6 +61,14 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       Storage.init();
+      
+      // Kiểm tra và chạy seed nếu cần
+      const storedVersion = localStorage.getItem(Storage.KEYS.SEED_VERSION);
+      if (storedVersion !== Storage.SEED_VERSION) {
+        SeedData.run();
+        localStorage.setItem(Storage.KEYS.SEED_VERSION, Storage.SEED_VERSION);
+      }
+      
       UI.initTheme();
 
       // If already logged in
@@ -84,6 +92,7 @@
           error.style.display = 'block';
         } else {
           UI.toast('Đăng ký thành công! Đang chuyển hướng...', 'success');
+          setTimeout(() => window.location.href = 'login.html', 1000);
         }
       });
     });
